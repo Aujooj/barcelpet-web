@@ -1,17 +1,15 @@
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
+import servicesRoutes from './routes/servicesRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
+
 
 const app = express();
-const corsOptions = {
-  origin: ["http://localhost:5173"],
-};
+app.use(cors());
 
-app.use(cors(corsOptions));
+servicesRoutes(app);
+contactRoutes(app);
 
-app.get("/api", (req, res) => {
-  res.json({ test: ["Garfield","Teddy"] });
-});
-
-app.listen(8080, () => {
-  console.log("Server started on port 8080");
+app.listen(3000, () => {
+  console.log("Server started on port 3000");
 });
