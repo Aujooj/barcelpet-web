@@ -30,7 +30,7 @@ const Footer = () => {
                 <li>
                   <strong
                     className={`${
-                      now.getDay() !== 3 && now.getDay() !== 7
+                      now.getDay() !== 0 && now.getDay() !== 3
                         ? "text-secondary"
                         : ""
                     }`}
@@ -49,7 +49,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <strong
-                    className={`${now.getDay() === 7 ? "text-secondary" : ""}`}
+                    className={`${now.getDay() === 0 ? "text-secondary" : ""}`}
                   >
                     Domingo:{" "}
                   </strong>
@@ -66,7 +66,7 @@ const Footer = () => {
                   >
                     <img
                       className="w-6 h-6"
-                      src="src/assets/socialMedia/facebook.png"
+                      src="/assets/socialMedia/facebook.png"
                       alt="facebook"
                     />
                   </Link>
@@ -77,7 +77,7 @@ const Footer = () => {
                   >
                     <img
                       className="w-6 h-6"
-                      src="src/assets/socialMedia/instagram.png"
+                      src="/assets/socialMedia/instagram.png"
                       alt="instagram"
                     />
                   </Link>
@@ -88,7 +88,7 @@ const Footer = () => {
                   >
                     <img
                       className="w-6 h-6"
-                      src="src/assets/socialMedia/tiktok.png"
+                      src="/assets/socialMedia/tiktok.png"
                       alt="tiktok"
                     />
                   </Link>
@@ -110,7 +110,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="copyright text-center mt-8 text-sm text-gray-600">
-        <p>© 2024, Barcelpet</p>
+        <p>© {now.getFullYear()}, Barcelpet</p>
       </div>
     </footer>
   );

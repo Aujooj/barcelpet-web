@@ -126,7 +126,7 @@ const Header = () => {
             {!isNavActive && (
               <img
                 id="bar"
-                src="src/assets/hamburguerMenu.png"
+                src="/assets/hamburguerMenu.png"
                 alt="menu"
                 className="w-6 h-6 cursor-pointer"
                 onClick={handleMenuToggle}
@@ -135,7 +135,7 @@ const Header = () => {
             {isNavActive && (
               <img
                 id="close"
-                src="src/assets/close.png"
+                src="/assets/close.png"
                 alt="close menu"
                 className="top-4 right-6 w-6 h-6 cursor-pointer z-[60]"
                 onClick={handleCloseMenu}

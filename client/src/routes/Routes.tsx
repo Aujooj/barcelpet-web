@@ -8,6 +8,7 @@ import {
   Loader,
   Services,
 } from "../views/AllViews";
+import AliveAnimals from "../views/AliveAnimal";
 
 export const router = createBrowserRouter([
   {
@@ -29,8 +30,8 @@ export const router = createBrowserRouter([
         element: <Loader />,
         children: [
           { path: "", element: <AliveType /> },
-          { path: "peixe", element: <></> },
-          { path: "reptil", element: <></> },
+          { path: "peixe", element:  <AliveAnimals />},
+          { path: "reptil", element: <AliveAnimals /> },
         ],
       },
       { path: "servicos", element: <Services /> },

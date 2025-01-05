@@ -154,7 +154,7 @@ const AboutUs: React.FC = () => {
             <div className="employees grid grid-cols-2 gap-6 md:grid-cols-4">
               <div className="text-center">
                 <img
-                  src="src/assets/employees/isabel.jpg"
+                  src="/assets/employees/isabel.jpg"
                   alt="Isabel"
                   className="mx-auto rounded-full w-32 h-32 object-cover"
                 />
@@ -167,7 +167,7 @@ const AboutUs: React.FC = () => {
               </div>
               <div className="text-center">
                 <img
-                  src="src/assets/employees/nuno.jpg"
+                  src="/assets/employees/nuno.jpg"
                   alt="Nuno"
                   className="mx-auto rounded-full w-32 h-32 object-cover"
                 />
@@ -178,7 +178,7 @@ const AboutUs: React.FC = () => {
               </div>
               <div className="text-center">
                 <img
-                  src="src/assets/employees/teddy.jpg"
+                  src="/assets/employees/teddy.jpg"
                   alt="Gato Teddy"
                   className="mx-auto rounded-full w-32 h-32 object-cover"
                 />
@@ -189,7 +189,7 @@ const AboutUs: React.FC = () => {
               </div>
               <div className="text-center">
                 <img
-                  src="src/assets/employees/garfield.jpg"
+                  src="/assets/employees/garfield.jpg"
                   alt="Gato Garfield"
                   className="mx-auto rounded-full w-32 h-32 object-cover"
                 />

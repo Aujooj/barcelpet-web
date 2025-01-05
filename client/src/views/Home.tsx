@@ -9,7 +9,7 @@ const Home: React.FC = () => {
       <Header />
       <section
         className="relative bg-cover bg-center bg-no-repeat h-screen flex items-center justify-center"
-        style={{ backgroundImage: `url('src/assets/hero.jpg')` }}
+        style={{ backgroundImage: `url('/assets/hero.jpg')` }}
       >
         <div className="container mx-auto px-6 text-white mt-[-20%]">
           <h1

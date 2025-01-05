@@ -17,7 +17,7 @@ const AliveType: React.FC = () => {
             <Link to="/vivos/peixe" className="group">
               <div className="card-pressable bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
                 <img
-                  src="src/assets/fish.png"
+                  src="/assets/animals/fish.png"
                   alt="Imagem de peixe"
                   className="card-pressable-image w-full h-72 object-fit"
                 />
@@ -30,7 +30,7 @@ const AliveType: React.FC = () => {
             <Link to="/vivos/reptil" className="group">
               <div className="card-pressable bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
                 <img
-                  src="src/assets/turtle.png"
+                  src="/assets/animals/turtle.png"
                   alt="Imagem de reptil"
                   className="card-pressable-image w-full h-72 object-fit"
                 />

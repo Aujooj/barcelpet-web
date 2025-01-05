@@ -3,31 +3,19 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 type Service = {
+  id: number;
   title: string;
   description: string;
   image: string;
-};
+}
 
 const Services: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchServices = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/info/services");
-      if (!response.ok) {
-        
-        throw new Error("Failed to fetch data from the server.");
-      }
-      const result = await response.json();
-      setServices(result);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
 
   useEffect(() => {
-    fetchServices();
+    fetch("http://localhost:3000/info/services")
+      .then((res) => res.json())
+      .then((data) => setServices(data));
   }, []);
   
   return (
@@ -47,15 +35,10 @@ const Services: React.FC = () => {
       {/* Services Section */}
       <section className="py-12">
       <div className="container mx-auto px-6">
-        {error && (
-          <p className="text-red-500 text-center mb-6">
-            Erro ao buscar serviços: {error}
-          </p>
-        )}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {services.map((services, index) => (
+          {services.map((services) => (
             <div
-              key={index}
+              key={services.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transform transition-transform duration-300"
             >
               <img
