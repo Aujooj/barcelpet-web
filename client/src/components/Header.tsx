@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Header = () => {
-  const uri = window.location.pathname;
+  const uri = window.location.pathname.split("/");
 
   const [isNavActive, setIsNavActive] = useState(false);
 
@@ -36,7 +37,7 @@ const Header = () => {
               <Link
                 to="/"
                 className={`hover:text-secondary ${
-                  uri === "/" ? "text-secondary font-bold" : ""
+                  uri[1] === "" ? "text-secondary font-bold" : ""
                 }`}
               >
                 Início
@@ -46,7 +47,7 @@ const Header = () => {
               <Link
                 to="/alimentacao"
                 className={`hover:text-secondary ${
-                  uri === "/alimentacao" ? "text-secondary font-bold" : ""
+                  uri[1] === "alimentacao" ? "text-secondary font-bold" : ""
                 }`}
               >
                 Alimentação
@@ -61,32 +62,36 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                <Link to="/alimentacao/gato"
+                  <Link
+                    to="/alimentacao/gato"
                     className="block px-4 py-2 hover:bg-secondary hover:text-white"
                   >
                     Gato
-                    </Link>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="relative group text-lg font-medium">
-            <Link to="/vivos"
+              <Link
+                to="/vivos"
                 className={`hover:text-secondary ${
-                  uri === "/vivos" ? "text-secondary font-bold" : ""
+                  uri[1] === "vivos" ? "text-secondary font-bold" : ""
                 }`}
               >
                 Vivos
-                </Link>
+              </Link>
               <ul className="absolute opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out bg-white border border-gray-200 shadow-lg mt-2 rounded-md text-sm">
                 <li>
-                <Link to="/vivos/peixe"
+                  <Link
+                    to="/vivos/peixe"
                     className="block px-4 py-2 hover:bg-secondary hover:text-white"
                   >
                     Peixes
                   </Link>
                 </li>
                 <li>
-                <Link to="/vivos/reptil"
+                  <Link
+                    to="/vivos/reptil"
                     className="block px-4 py-2 hover:bg-secondary hover:text-white"
                   >
                     Répteis
@@ -95,27 +100,28 @@ const Header = () => {
               </ul>
             </li>
             <li className="relative group text-lg font-medium">
-            <Link to="/servicos"
+              <Link
+                to="/servicos"
                 className={`hover:text-secondary ${
-                  uri === "/servicos" ? "text-secondary font-bold" : ""
+                  uri[1] === "servicos" ? "text-secondary font-bold" : ""
                 }`}
               >
                 Serviços
               </Link>
             </li>
             <li className="relative group text-lg font-medium">
-            <Link to="/sobre"
+              <Link
+                to="/sobre"
                 className={`hover:text-secondary ${
-                  uri === "/sobre" ? "text-secondary font-bold" : ""
+                  uri[1] === "sobre" ? "text-secondary font-bold" : ""
                 }`}
               >
                 Quem somos?
               </Link>
             </li>
             <li>
-              <Link to="https://buk.pt/barcelpet"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/login"
                 className="bg-primary text-white px-4 py-2 rounded-md hover:bg-secondary transition"
               >
                 Agende já
@@ -124,22 +130,18 @@ const Header = () => {
           </ul>
           <div id="mobile" className="md:hidden flex items-center">
             {!isNavActive && (
-              <img
-                id="bar"
-                src="/assets/hamburguerMenu.png"
-                alt="menu"
-                className="w-6 h-6 cursor-pointer"
-                onClick={handleMenuToggle}
-              />
+              <FaBars
+              id="bar"
+              className="w-6 h-6 cursor-pointer"
+              onClick={handleMenuToggle}
+            />
             )}
             {isNavActive && (
-              <img
-                id="close"
-                src="/assets/close.png"
-                alt="close menu"
-                className="top-4 right-6 w-6 h-6 cursor-pointer z-[60]"
-                onClick={handleCloseMenu}
-              />
+              <FaTimes
+              id="close"
+              className="top-4 right-6 w-6 h-6 cursor-pointer z-[60]"
+              onClick={handleCloseMenu}
+            />
             )}
           </div>
         </div>

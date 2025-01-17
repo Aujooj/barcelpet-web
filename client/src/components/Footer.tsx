@@ -1,7 +1,9 @@
+import { FaFacebook, FaInstagram, FaTiktok } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   var now = new Date();
+  const today = now.getDay();
   return (
     <footer className="section-p1 bg-gray-100 p-8">
       <div className="flex flex-col lg:flex-row justify-between">
@@ -9,7 +11,7 @@ const Footer = () => {
           <div className="content">
             <div className="desc">
               <img
-                className="logo-footer mb-4 h-16"
+                className="logo-footer mb-4 h-16 filter grayscale"
                 src="/logo.png"
                 alt="logo"
               />
@@ -30,9 +32,7 @@ const Footer = () => {
                 <li>
                   <strong
                     className={`${
-                      now.getDay() !== 0 && now.getDay() !== 3
-                        ? "text-secondary"
-                        : ""
+                      today !== 0 && today !== 3 ? "text-secondary" : ""
                     }`}
                   >
                     Segunda, Terça, Quinta, Sexta e Sábado:{" "}
@@ -40,17 +40,13 @@ const Footer = () => {
                   9h30-19h30
                 </li>
                 <li>
-                  <strong
-                    className={`${now.getDay() === 3 ? "text-secondary" : ""}`}
-                  >
+                  <strong className={`${today === 3 ? "text-secondary" : ""}`}>
                     Quarta:{" "}
                   </strong>
                   14h30-19h30
                 </li>
                 <li>
-                  <strong
-                    className={`${now.getDay() === 0 ? "text-secondary" : ""}`}
-                  >
+                  <strong className={`${today === 0 ? "text-secondary" : ""}`}>
                     Domingo:{" "}
                   </strong>
                   Fechado
@@ -64,33 +60,21 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <img
-                      className="w-6 h-6"
-                      src="/assets/socialMedia/facebook.png"
-                      alt="facebook"
-                    />
+                    <FaFacebook className="w-6 h-6 text-blue-600" />
                   </Link>
                   <Link
                     to="https://www.instagram.com/barcelpet/"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <img
-                      className="w-6 h-6"
-                      src="/assets/socialMedia/instagram.png"
-                      alt="instagram"
-                    />
+                    <FaInstagram className="w-6 h-6 text-pink-600" />
                   </Link>
                   <Link
                     to="https://www.tiktok.com/@barcelpet"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <img
-                      className="w-6 h-6"
-                      src="/assets/socialMedia/tiktok.png"
-                      alt="tiktok"
-                    />
+                    <FaTiktok className="w-6 h-6 text-black-600" />
                   </Link>
                 </div>
               </div>

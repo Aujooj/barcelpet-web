@@ -1,14 +1,21 @@
 import { createBrowserRouter } from "react-router-dom";
 import {
   AboutUs,
+  AliveAnimals,
   AliveType,
   App,
+  AuthPage,
+  BrandDetails,
+  Dashboard,
+  FoodBrand,
+  FoodDetails,
   FoodType,
   Home,
   Loader,
+  NotFoundPage,
   Services,
 } from "../views/AllViews";
-import AliveAnimals from "../views/AliveAnimal";
+import { ProtectedRoute } from "../components/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -21,8 +28,9 @@ export const router = createBrowserRouter([
         element: <Loader />,
         children: [
           { path: "", element: <FoodType /> },
-          { path: "cao", element: <></> },
-          { path: "gato", element: <></> },
+          { path: ":animalType", element: <FoodBrand /> },
+          { path: ":animalType/:brandId", element: <BrandDetails /> },
+          { path: ":animalType/:brandId/:foodId", element: <FoodDetails /> },
         ],
       },
       {
@@ -30,12 +38,21 @@ export const router = createBrowserRouter([
         element: <Loader />,
         children: [
           { path: "", element: <AliveType /> },
-          { path: "peixe", element:  <AliveAnimals />},
-          { path: "reptil", element: <AliveAnimals /> },
+          { path: ":animalType", element: <AliveAnimals /> },
         ],
       },
       { path: "servicos", element: <Services /> },
       { path: "sobre", element: <AboutUs /> },
+      { path: "login", element: <AuthPage /> },
+      {
+        path: "dashboard",
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
 ]);

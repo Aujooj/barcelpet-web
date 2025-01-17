@@ -17,14 +17,14 @@ model Product {
   id                      Int      @id @default(autoincrement())
   name                    String
   type                    String
-  image                   String
+  image                   String?
   brand                   String
-  features                String
-  benefits                String
-  composition             String
-  analytical              String
-  additional_additives    String
-  technological_additives String
+  features                String?
+  benefits                String?
+  composition             String?
+  analytical              String?
+  additional_additives    String?
+  technological_additives String?
 }
 
 model Service {
@@ -32,4 +32,12 @@ model Service {
   title       String
   description String
   image       String
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  phone    String
+  email    String @unique
+  password String
 }

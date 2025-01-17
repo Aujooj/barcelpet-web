@@ -1,9 +1,12 @@
 import { Outlet } from "react-router";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
     <>
-      <Outlet/>
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
     </>
   );
 }

@@ -1,6 +1,11 @@
 import cors from "cors";
 import express from "express";
-import { listAliveAnimalByType } from "../controllers/productsController.js";
+import {
+  listAliveAnimalByType,
+  listAllBrandsByAnimal,
+  listAllFoodsByBrand,
+  ReadProductById,
+} from "../controllers/productsController.js";
 
 const corsOptions = {
   origin: "http://localhost:5173",
@@ -14,6 +19,22 @@ const routes = (app) => {
   app.get("/info/animals/:type", (req, res) => {
     const animalType = req.params.type;
     listAliveAnimalByType(animalType, req, res);
+  });
+
+  app.get("/info/food/brands/:type", (req, res) => {
+    const animalType = req.params.type;
+    listAllBrandsByAnimal(animalType, req, res);
+  });
+
+  app.get("/info/food/brands/:type/:brand", (req, res) => {
+    const type = req.params.type;
+    const brand = req.params.brand;
+    listAllFoodsByBrand([type, brand], req, res);
+  });
+
+  app.get("/info/food/products/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    ReadProductById(id, req, res);
   });
 };
 

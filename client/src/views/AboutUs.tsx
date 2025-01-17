@@ -93,7 +93,7 @@ const AboutUs: React.FC = () => {
             `,
           }),
         });
-  
+
         if (response.ok) {
           alert("Email sent successfully!");
           setFormData({
@@ -118,15 +118,15 @@ const AboutUs: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen flex flex-col mt-20">  
+      <div className="min-h-screen flex flex-col bg-gray-100 mt-20">
         <div className="content-margin mx-auto max-w-7xl px-4 py-8">
-          <section className="aboutUs-card bg-white p-8 rounded-lg shadow-lg">
+          <section className="aboutUs-card bg-white p-8 border border-gray-300 rounded-lg shadow-lg">
             <div className="aboutUs-info">
               <h2 className="aboutUs-title text-3xl font-semibold text-gray-800">
                 Quem somos?
               </h2>
               <p className="text-gray-600 mt-4">
-                Somos uma família apaixonada por animais, formada, pelo Tio Nuno
+                Somos uma família apaixonada por animais, formada pelo Tio Nuno
                 e a Tia Isabel, três filhas e seis bichinhos que enchem a nossa
                 casa e o nosso projeto de alegria. Dia 1 de dezembro de 2020,
                 realizamos o nosso sonho de abrir uma loja de animais.
@@ -147,7 +147,10 @@ const AboutUs: React.FC = () => {
             </div>
           </section>
 
-          <section id="team" className="mt-12">
+          <section
+            id="team"
+            className="mt-12 bg-white border border-gray-300 rounded-lg shadow-lg p-6"
+          >
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               Nossa equipa
             </h2>
@@ -183,8 +186,8 @@ const AboutUs: React.FC = () => {
                   className="mx-auto rounded-full w-32 h-32 object-cover"
                 />
                 <p className="mt-2">
-                  <span className="block text-xl font-medium">Teddy</span>Chefe
-                  1
+                  <span className="block text-xl font-medium">Teddy</span>
+                  Chefe 1
                 </p>
               </div>
               <div className="text-center">
@@ -203,7 +206,7 @@ const AboutUs: React.FC = () => {
 
           <section
             id="form-email"
-            className="mt-12 bg-gray-100 p-8 rounded-lg shadow-lg"
+            className="mt-12 p-8 rounded-lg shadow-lg bg-white"
           >
             <form onSubmit={handleSubmit} method="POST" className="space-y-4">
               <p className="text-lg text-gray-700">Envie-nos um email</p>
