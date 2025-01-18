@@ -6,27 +6,41 @@ import PageNotFound from "../components/PageNotFound";
 import DescriptionDetailItem from "../components/DescriptionDetailItem";
 import ListDetailItem from "../components/ListDetailItem";
 import Product from "../interfaces/Product";
+import Loading from "../components/Loading";
 
 const FoodDetails: React.FC = () => {
   const [product, setProduct] = useState<Product>();
   const { animalType, brandId, foodId } = useParams();
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setLoading(true);
     fetch(`http://localhost:3000/info/food/products/${foodId}`)
       .then((res) => res.json())
-      .then((data) => setProduct(data));
+      .then((data) => {
+        setProduct(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+    window.scrollTo(0, 0);
   }, [animalType, brandId, foodId]);
 
   return (
     <div className="min-h-screen flex flex-col mt-20 bg-gray-100">
       <Header />
-      {!product ? (
+      {loading ? (
+        <Loading />
+      ) : !product ? (
         <PageNotFound />
       ) : (
         <div className="product-page mx-20 p-16 bg-white shadow-lg rounded-lg my-10">
           <div className="product-header flex items-start space-x-6">
             <div className="h-80 w-80">
-              <img className="h-full w-full object-contain" src={product.image} alt={product.name} />
+              <img
+                className="h-full w-full object-contain"
+                src={product.image}
+                alt={product.name}
+              />
             </div>
             <div className="product-info">
               <h1 className="product-name text-2xl font-bold text-gray-800">

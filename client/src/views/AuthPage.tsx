@@ -21,6 +21,7 @@ const AuthPage: React.FC = () => {
     if (token) {
       navigate("/dashboard");
     }
+    window.scrollTo(0, 0);
   }, [token, navigate]);
 
   const toggleForm = () => {

@@ -4,8 +4,6 @@ import Navbar from "../components/Navbar.tsx";
 import Product from "../interfaces/Product";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 
-
-
 const ProductFormPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const isAdd = id === "adicionar";
@@ -51,6 +49,7 @@ const ProductFormPage: React.FC = () => {
           setImagePreview(data.image);
         });
     }
+    window.scrollTo(0, 0);
   }, []);
 
   const handleGoBack = () => {
@@ -62,12 +61,29 @@ const ProductFormPage: React.FC = () => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.name === "price") {
+      let newValue = e.target.value;
+
+      newValue = newValue.replace(/,/g, ".");
+      let newConvertedValue = parseFloat(newValue);
+      setFormData({
+        ...formData,
+        price: newConvertedValue,
+      });
+    } else if (e.target.name === "stock") {
+      let newValue = e.target.value;
+      let newConvertedValue = parseInt(newValue);
+      setFormData({
+        ...formData,
+        stock: newConvertedValue,
+      });
+    }
+    else setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
+    if(file) {
       setFormData({ ...formData, image: file.name });
       setImagePreview(URL.createObjectURL(file));
     }
@@ -75,19 +91,28 @@ const ProductFormPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const updatedFormData = isAdd
+    ? { ...formData, id: undefined }
+    : { ...formData };
     const transformedData = {
-      ...formData,
-      features: formData.features.replace(/\n/g, "<br>"),
-      benefits: formData.benefits.replace(/\n/g, "<br>"),
-      composition: formData.composition.replace(/\n/g, "<br>"),
-      analytical: formData.analytical.replace(/\n/g, "<br>"),
-      additional_additives: formData.additional_additives.replace(/\n/g, "<br>"),
-      technological_additives: formData.technological_additives.replace(/\n/g, "<br>"),
+      ...updatedFormData,
+      features: updatedFormData.features?.replace(/\n/g, "<br>"),
+      benefits: updatedFormData.benefits?.replace(/\n/g, "<br>"),
+      composition: updatedFormData.composition?.replace(/\n/g, "<br>"),
+      analytical: updatedFormData.analytical?.replace(/\n/g, "<br>"),
+      additional_additives: updatedFormData.additional_additives?.replace(
+        /\n/g,
+        "<br>"
+      ),
+      technological_additives: updatedFormData.technological_additives?.replace(
+        /\n/g,
+        "<br>"
+      ),
     };
     const method = isAdd ? "POST" : "PUT";
     const url = isAdd
-      ? "http://localhost:3000/info/food"
-      : `http://localhost:3000/info/food/${id}`;
+      ? "http://localhost:3000/api/create/product"
+      : "http://localhost:3000/api/update/product";
 
     const response = await fetch(url, {
       method,
@@ -99,8 +124,9 @@ const ProductFormPage: React.FC = () => {
 
     if (response.ok) {
       alert(`Produto ${isAdd ? "adicionado" : "alterado"} com sucesso!`);
+      handleGoBack();
     } else {
-      alert(`Falha ao  ${id ? "adicionar" : "alterar"} produto.`);
+      alert(`Falha ao  ${isAdd ? "adicionar" : "alterar"} produto.`);
     }
   };
 
@@ -118,12 +144,13 @@ const ProductFormPage: React.FC = () => {
           </h1>
           <button
             type="submit"
+            onClick={handleSubmit}
             className="p-2 w-40 bg-primary text-white rounded hover:bg-secondary"
           >
             {isAdd ? "ENVIAR" : "ATUALIZAR"}
           </button>
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+        <form className="flex flex-col space-y-4">
           <label>Nome*</label>
           <input
             type="text"
@@ -143,7 +170,7 @@ const ProductFormPage: React.FC = () => {
           <label>Quantidade em estoque*</label>
           <input
             type="number"
-            name="quantity"
+            name="stock"
             value={formData.stock}
             onChange={handleChange}
             className="p-2 border border-gray-300 rounded"

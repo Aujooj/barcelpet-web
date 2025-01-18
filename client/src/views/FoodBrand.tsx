@@ -2,15 +2,22 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link, useParams } from "react-router-dom";
+import Loading from "../components/Loading";
 
 const FoodBrand: React.FC = () => {
   const [brands, setBrands] = useState([]);
   const { animalType } = useParams();
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetch(`http://localhost:3000/info/food/brands/${animalType}`)
       .then((res) => res.json())
-      .then((data) => setBrands(data));
+      .then((data) => {
+        setBrands(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+    window.scrollTo(0, 0);
   }, [animalType]);
 
   return (
@@ -33,23 +40,30 @@ const FoodBrand: React.FC = () => {
 
       <section className="py-12">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {brands.map((brand, index) => (
-              <Link to={`/alimentacao/${animalType}/${brand}`} className="block">
-                <div
-                  key={index}
-                  className="bg-white shadow-lg rounded-lg overflow-hidden p-6 hover:scale-105 transform transition-transform duration-300"
+          {loading ? (
+            <Loading />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {brands.map((brand, index) => (
+                <Link
+                  to={`/alimentacao/${animalType}/${brand}`}
+                  className="block"
                 >
-                  <h3 className="text-xl font-semibold text-primary text-center mb-2">
-                    {brand}
-                  </h3>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  <div
+                    key={index}
+                    className="bg-white shadow-lg rounded-lg overflow-hidden p-6 hover:scale-105 transform transition-transform duration-300"
+                  >
+                    <h3 className="text-xl font-semibold text-primary text-center mb-2">
+                      {brand}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
-      
+
       <Footer />
     </div>
   );

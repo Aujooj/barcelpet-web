@@ -2,14 +2,21 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Service from "../interfaces/Service";
+import Loading from "../components/Loading";
 
 const Services: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetch("http://localhost:3000/info/services")
       .then((res) => res.json())
-      .then((data) => setServices(data));
+      .then((data) => {
+        setServices(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+      window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -27,30 +34,36 @@ const Services: React.FC = () => {
 
         <section className="py-12">
           <div className="container mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {services.map((service) => (
-                <div
-                  key={service.id}
-                  className="bg-white shadow-lg rounded-lg overflow-hidden"
-                >
-                  <img
-                    src={service.image}
-                    alt={`Imagem de ${service.title}`}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-primary mb-2">
-                      {service.title}
-                    </h3>
-                    <p className="text-gray-600">
-                      {service.description.split("<br>").map((line, index) => (
-                        <p key={index}>{line}</p>
-                      ))}
-                    </p>
+            {loading ? (
+              <Loading />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {services.map((service) => (
+                  <div
+                    key={service.id}
+                    className="bg-white shadow-lg rounded-lg overflow-hidden"
+                  >
+                    <img
+                      src={service.image}
+                      alt={`Imagem de ${service.title}`}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold text-primary mb-2">
+                        {service.title}
+                      </h3>
+                      <p className="text-gray-600">
+                        {service.description
+                          .split("<br>")
+                          .map((line, index) => (
+                            <p key={index}>{line}</p>
+                          ))}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 

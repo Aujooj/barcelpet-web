@@ -9,7 +9,7 @@ import FoodBrand from "./FoodBrand";
 import FoodDetails from "../views/FoodDetails";
 import FoodType from "./FoodType";
 import Home from "./Home";
-import ListProducts from "./ListProducts";
+import ListProduct from "./ListProduct";
 import Loader from "../components/Loader";
 import NotFoundPage from "./NotFoundPage";
 import ProductFormPage from "./ProductFormPage";
@@ -27,7 +27,7 @@ export {
   FoodDetails,
   FoodType,
   Home,
-  ListProducts,
+  ListProduct,
   Loader,
   NotFoundPage,
   ProductFormPage,

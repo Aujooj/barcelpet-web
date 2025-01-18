@@ -9,11 +9,11 @@ const BrandDetails: React.FC = () => {
   const { animalType, brandId } = useParams();
 
   useEffect(() => {
-    fetch(
-      `http://localhost:3000/info/food/brands/${animalType}/${brandId}`
-    )
+    fetch(`http://localhost:3000/info/food/brands/${animalType}/${brandId}`)
       .then((res) => res.json())
       .then((data) => setProducts(data));
+
+    window.scrollTo(0, 0);
   }, [animalType, brandId]);
 
   return (

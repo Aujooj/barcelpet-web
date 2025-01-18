@@ -59,11 +59,92 @@ export async function getProductById(pId) {
 }
 
 export async function getAllFoods() {
-  const product = await prisma.product.findMany({where: {
-    brand: { not: "Pet" },
-  },
-  orderBy: {
-    name: "asc",
-  },});
+  const product = await prisma.product.findMany({
+    where: {
+      brand: { not: "Pet" },
+    },
+    orderBy: {
+      name: "asc",
+    },
+  });
   return product;
+}
+
+export async function createProductAsync(product) {
+  const {
+    name,
+    price,
+    stock,
+    weight,
+    type,
+    image,
+    brand,
+    features,
+    benefits,
+    composition,
+    analytical,
+    additional_additives,
+    technological_additives,
+  } = product;
+  const newProduct = await prisma.product.create({
+    data: {
+      name,
+      price,
+      stock,
+      weight,
+      type,
+      image,
+      brand,
+      features,
+      benefits,
+      composition,
+      analytical,
+      additional_additives,
+      technological_additives,
+    },
+  });
+  return newProduct;
+}
+
+export async function updateProductAsync(product) {
+  const {
+    id,
+    name,
+    price,
+    stock,
+    weight,
+    type,
+    image,
+    brand,
+    features,
+    benefits,
+    composition,
+    analytical,
+    additional_additives,
+    technological_additives,
+  } = product;
+  const response = await prisma.product.update({
+    where: { id: id },
+    data: {
+      name,
+      price,
+      stock,
+      weight,
+      type,
+      image,
+      brand,
+      features,
+      benefits,
+      composition,
+      analytical,
+      additional_additives,
+      technological_additives,
+    },
+  });
+  return response;
+}
+
+export async function removeProductAsync(id) {
+  const response = await prisma.product.delete({ where: { id: id } });
+  return response;
 }

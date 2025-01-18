@@ -11,7 +11,7 @@ import {
   FoodDetails,
   FoodType,
   Home,
-  ListProducts,
+  ListProduct,
   Loader,
   NotFoundPage,
   ProductFormPage,
@@ -63,7 +63,7 @@ export const router = createBrowserRouter([
             path: "products",
             element: (
               <ProtectedRoute>
-                <ListProducts />
+                <ListProduct />
               </ProtectedRoute>
             ),
           },

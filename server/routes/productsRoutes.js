@@ -1,11 +1,14 @@
 import cors from "cors";
 import express from "express";
 import {
+  createProduct,
   listAliveAnimalByType,
   listAllBrandsByAnimal,
   listAllFoods,
   listAllFoodsByBrand,
-  ReadProductById,
+  readProductById,
+  removeProduct,
+  updateProduct,
 } from "../controllers/productsController.js";
 
 const corsOptions = {
@@ -37,7 +40,22 @@ const routes = (app) => {
 
   app.get("/info/food/products/:id", (req, res) => {
     const id = parseInt(req.params.id);
-    ReadProductById(id, req, res);
+    readProductById(id, req, res);
+  });
+
+  app.post("/api/create/product", (req, res) => {
+    const food = req.body;
+    createProduct(food, req, res);
+  });
+
+  app.put("/api/update/product", (req, res) => {
+    const product = req.body;
+    updateProduct(product, req, res);
+  });
+
+  app.delete("/api/remove/product", (req, res) => {
+    const product = req.body.id;
+    removeProduct(product, req, res);
   });
 };
 
