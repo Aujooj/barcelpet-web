@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
       <ul className="space-y-4 flex-grow px-4">
         <li>
           <Link
-            to="/products"
+            to="/dashboard/products"
             className="block py-2 px-4 rounded hover:bg-secondary hover:text-white transition"
           >
             <FaShoppingBag className="inline mr-2"/>Produtos

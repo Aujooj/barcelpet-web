@@ -25,8 +25,8 @@ const FoodDetails: React.FC = () => {
       ) : (
         <div className="product-page mx-20 p-16 bg-white shadow-lg rounded-lg my-10">
           <div className="product-header flex items-start space-x-6">
-            <div className="h-72 w-72">
-              <img src={product.image} alt={product.name} />
+            <div className="h-80 w-80">
+              <img className="h-full w-full object-contain" src={product.image} alt={product.name} />
             </div>
             <div className="product-info">
               <h1 className="product-name text-2xl font-bold text-gray-800">

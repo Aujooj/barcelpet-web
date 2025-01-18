@@ -3,6 +3,7 @@ import express from "express";
 import {
   listAliveAnimalByType,
   listAllBrandsByAnimal,
+  listAllFoods,
   listAllFoodsByBrand,
   ReadProductById,
 } from "../controllers/productsController.js";
@@ -20,6 +21,8 @@ const routes = (app) => {
     const animalType = req.params.type;
     listAliveAnimalByType(animalType, req, res);
   });
+
+  app.get("/info/food", listAllFoods);
 
   app.get("/info/food/brands/:type", (req, res) => {
     const animalType = req.params.type;

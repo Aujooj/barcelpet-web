@@ -35,7 +35,7 @@ const BrandDetails: React.FC = () => {
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-72 h-72 object-cover object-center mx-auto"
+                  className="w-72 h-72 object-contain object-center mx-auto"
                 />
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-semibold text-primary mb-2">

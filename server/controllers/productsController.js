@@ -1,6 +1,7 @@
 import {
   getAliveAnimalByType,
   getAllBrandsByAnimal,
+  getAllFoods,
   getAllFoodsByBrand,
   getProductById,
 } from "../models/productsModel.js";
@@ -23,5 +24,10 @@ export async function listAllFoodsByBrand(options, req, res) {
 
 export async function ReadProductById(id, req, res) {  
   const products = await getProductById(id);
+  res.status(200).json(products);
+}
+
+export async function listAllFoods(req, res) {
+  const products = await getAllFoods();
   res.status(200).json(products);
 }

@@ -25,6 +25,9 @@ model Product {
   analytical              String?
   additional_additives    String?
   technological_additives String?
+  stock                   Int
+  price                   Decimal @db.Decimal(10,2)
+  weight                  String
 }
 
 model Service {

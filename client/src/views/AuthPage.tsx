@@ -35,15 +35,16 @@ const AuthPage: React.FC = () => {
   };
 
   const validatePassword = (password: string): boolean => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
     return passwordRegex.test(password);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isRegister && !validatePassword(formData.password)) {
-      setError("A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial.");
+      setError(
+        "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial."
+      );
       return;
     }
 
@@ -65,7 +66,7 @@ const AuthPage: React.FC = () => {
         throw new Error(data.message);
       } else if (!isRegister) {
         setToken(data.token);
-        setUserId(data.user.id)
+        setUserId(data.user.id);
         setUser(data.user.name);
         navigate("/dashboard");
       }
@@ -90,7 +91,9 @@ const AuthPage: React.FC = () => {
           {isRegister ? "Criar Conta" : "Inicie sessão"}
         </h2>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-        {success && <p className="text-green-500 text-center mb-4">{success}</p>}
+        {success && (
+          <p className="text-green-500 text-center mb-4">{success}</p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-6">
           {isRegister && (
             <div className="grid grid-cols-2 gap-4">

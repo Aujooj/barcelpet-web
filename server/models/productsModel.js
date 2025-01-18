@@ -57,3 +57,13 @@ export async function getProductById(pId) {
 
   return product;
 }
+
+export async function getAllFoods() {
+  const product = await prisma.product.findMany({where: {
+    brand: { not: "Pet" },
+  },
+  orderBy: {
+    name: "asc",
+  },});
+  return product;
+}

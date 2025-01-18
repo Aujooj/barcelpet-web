@@ -6,7 +6,7 @@ const Dashboard: React.FC = () => {
     <>
       <Navbar />
       <div className="bg-gray-100 h-full ml-64">
-        <div>Laura</div>
+        
       </div>
     </>
   );

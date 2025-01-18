@@ -20,9 +20,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
-    if (storedToken) {
-      setToken(storedToken);
-    }
+    const storedUser = localStorage.getItem("loggedUser");
+    const storedUserId = localStorage.getItem("loggedUserId");
+    if (storedToken) setToken(storedToken);
+    if (storedUser) setUser(storedUser);
+    if (storedUserId) setUserId(storedUserId);
+  }, []);
+  useEffect(() => {
+    const storedToken = localStorage.getItem("authToken");
+
+    if (storedToken) setToken(storedToken);
   }, []);
 
   const updateToken = (newToken: string | null) => {

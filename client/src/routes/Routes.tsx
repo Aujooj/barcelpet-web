@@ -11,8 +11,10 @@ import {
   FoodDetails,
   FoodType,
   Home,
+  ListProducts,
   Loader,
   NotFoundPage,
+  ProductFormPage,
   Services,
 } from "../views/AllViews";
 import { ProtectedRoute } from "../components/ProtectedRoute";
@@ -44,13 +46,28 @@ export const router = createBrowserRouter([
       { path: "servicos", element: <Services /> },
       { path: "sobre", element: <AboutUs /> },
       { path: "login", element: <AuthPage /> },
+      { path: "dashboard/products/:id", element: <ProductFormPage /> },
       {
         path: "dashboard",
-        element: (
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        ),
+        element: <Loader />,
+        children: [
+          {
+            path: "",
+            element: (
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "products",
+            element: (
+              <ProtectedRoute>
+                <ListProducts />
+              </ProtectedRoute>
+            ),
+          },
+        ],
       },
       { path: "*", element: <NotFoundPage /> },
     ],
