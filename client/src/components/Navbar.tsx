@@ -1,9 +1,10 @@
 import React from "react";
 import { CiLogout } from "react-icons/ci";
 import { FaDog, FaHome, FaShoppingBag, FaUserCircle } from "react-icons/fa";
-import { FaScissors } from "react-icons/fa6";
+import { FaFishFins, FaScissors } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { MdDashboard } from "react-icons/md";
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
@@ -19,10 +20,26 @@ const Navbar: React.FC = () => {
       <ul className="space-y-4 flex-grow px-4">
         <li>
           <Link
-            to="/dashboard/products"
+            to="/dashboard"
             className="block py-2 px-4 rounded hover:bg-secondary hover:text-white transition"
           >
-            <FaShoppingBag className="inline mr-2"/>Produtos
+            <MdDashboard className="inline mr-2"/>Painel
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/dashboard/alimentacao"
+            className="block py-2 px-4 rounded hover:bg-secondary hover:text-white transition"
+          >
+            <FaShoppingBag className="inline mr-2"/>Alimentação
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/dashboard/vivos"
+            className="block py-2 px-4 rounded hover:bg-secondary hover:text-white transition"
+          >
+            <FaFishFins className="inline mr-2"/>Animais Vivos
           </Link>
         </li>
         <li>

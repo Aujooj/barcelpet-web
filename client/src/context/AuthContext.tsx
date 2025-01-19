@@ -41,24 +41,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const updateUser = (newUser: string | null) => {
-    setUser(newUser);
-    if (newUser) {
-      localStorage.setItem("loggedUser", newUser);
-    } else {
-      localStorage.removeItem("loggedUser");
-    }
-  };
-
-  const updateUserId = (newUserId: string | null) => {
-    setUserId(newUserId);
-    if (newUserId) {
-      localStorage.setItem("loggedUserId", newUserId);
-    } else {
-      localStorage.removeItem("loggedUserId");
-    }
-  };
-
   const logout = () => {
     localStorage.removeItem("authToken");
     setToken(null);
@@ -71,8 +53,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         user,
         userId,
         setToken: updateToken,
-        setUser: updateUser,
-        setUserId: updateUserId,
+        setUser,
+        setUserId,
         logout,
       }}
     >

@@ -15,7 +15,7 @@ const FoodDetails: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:3000/info/food/products/${foodId}`)
+    fetch(`http://localhost:3000/info/products/${foodId}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);
@@ -39,12 +39,12 @@ const FoodDetails: React.FC = () => {
               <img
                 className="h-full w-full object-contain"
                 src={product.image}
-                alt={product.name}
+                alt={`${product.name} - ${product.weight}`}
               />
             </div>
             <div className="product-info">
               <h1 className="product-name text-2xl font-bold text-gray-800">
-                {product.name}
+                {`${product.name} - ${product.weight}`}
               </h1>
               <Link to={`/alimentacao/${animalType}/${brandId}`}>
                 <h2 className="brand-name text-lg font-medium text-gray-600 mt-2">

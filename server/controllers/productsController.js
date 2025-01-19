@@ -1,6 +1,7 @@
 import {
   createProductAsync,
   getAliveAnimalByType,
+  getAllAlive,
   getAllBrandsByAnimal,
   getAllFoods,
   getAllFoodsByBrand,
@@ -27,6 +28,11 @@ export async function listAllFoodsByBrand(options, req, res) {
 
 export async function readProductById(id, req, res) {
   const products = await getProductById(id);
+  res.status(200).json(products);
+}
+
+export async function listAllAlive(req, res) {
+  const products = await getAllAlive();
   res.status(200).json(products);
 }
 

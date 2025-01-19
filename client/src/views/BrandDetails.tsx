@@ -34,12 +34,12 @@ const BrandDetails: React.FC = () => {
               <div className="bg-white shadow-lg rounded-lg overflow-hidden">
                 <img
                   src={product.image}
-                  alt={product.name}
+                  alt={`${product.name} - ${product.weight}`}
                   className="w-72 h-72 object-contain object-center mx-auto"
                 />
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-semibold text-primary mb-2">
-                    {product.name}
+                    {`${product.name} - ${product.weight}`}
                   </h3>
                 </div>
               </div>

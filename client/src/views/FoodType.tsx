@@ -5,8 +5,8 @@ import Footer from "../components/Footer";
 
 const FoodType: React.FC = () => {
   useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Header />
@@ -20,7 +20,7 @@ const FoodType: React.FC = () => {
             <Link to="/alimentacao/cao" className="group">
               <div className="card-pressable bg-white p-5 shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
                 <img
-                  src="/assets/animals/dog.png"
+                  src="/assets/dog.png"
                   alt="Imagem de cão"
                   className="card-pressable-image w-full h-72 object-fit"
                 />
@@ -33,7 +33,7 @@ const FoodType: React.FC = () => {
             <Link to="/alimentacao/gato" className="group">
               <div className="card-pressable bg-white p-5 shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
                 <img
-                  src="/assets/animals/cat.png"
+                  src="/assets/cat.png"
                   alt="Imagem de gato"
                   className="card-pressable-image w-full h-72 object-fit"
                 />

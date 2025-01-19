@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar.tsx";
-import { FaSortDown, FaSortUp, FaTrashAlt } from "react-icons/fa";
-import Product from "../interfaces/Product.tsx";
+import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import Loading from "../components/Loading.tsx";
+import Product from "../interfaces/Product";
+import Loading from "../components/Loading";
+import { FaSortDown, FaSortUp, FaTrashAlt } from "react-icons/fa";
 
-const ListProduct: React.FC = () => {
+const ListAlive: React.FC = () => {
   const navigate = useNavigate();
-  const [foods, setFoods] = useState<Product[]>([]);
+  const [animals, setAnimals] = useState<Product[]>([]);
   const [sortConfig, setSortConfig] = useState<{
     key: keyof Product;
     direction: "asc" | "desc";
@@ -16,10 +16,10 @@ const ListProduct: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:3000/info/food`)
+    fetch(`http://localhost:3000/info/alive`)
       .then((res) => res.json())
       .then((data) => {
-        setFoods(data);
+        setAnimals(data);
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -35,15 +35,15 @@ const ListProduct: React.FC = () => {
   };
 
   const sortedFoods = React.useMemo(() => {
-    if (!sortConfig) return foods;
-    return [...foods].sort((a, b) => {
+    if (!sortConfig) return animals;
+    return [...animals].sort((a, b) => {
       const aValue = a[sortConfig.key];
       const bValue = b[sortConfig.key];
       if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
       if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  }, [foods, sortConfig]);
+  }, [animals, sortConfig]);
 
   const getSortIcon = (key: keyof Product) => {
     if (sortConfig?.key === key) {
@@ -79,7 +79,7 @@ const ListProduct: React.FC = () => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.message);
         else {
-          alert("Ração deletada com sucesso!");
+          alert("Animal deletado com sucesso!");
           window.location.reload();
         }
       } catch (e) {
@@ -94,7 +94,7 @@ const ListProduct: React.FC = () => {
       <div className="min-h-screen ml-64 flex flex-col bg-gray-100">
         <div className="overflow-x-auto mx-6 p-8 bg-white shadow-lg rounded-lg my-10">
           <h1 className="text-4xl font-bold text-center mb-10">
-            Todos de Alimentação
+            Todos de Animais Vivos
           </h1>
           <button
             className="self-center mb-6 px-4 py-2 bg-primary text-white rounded hover:bg-secondary transition"
@@ -118,33 +118,17 @@ const ListProduct: React.FC = () => {
                   </th>
                   <th
                     className="border p-2 cursor-pointer"
-                    onClick={() => handleSort("brand")}
-                  >
-                    Marca {getSortIcon("brand")}
-                  </th>
-
-                  <th className="border p-2">Preço</th>
-                  <th className="border p-2">Qtd. Estoque</th>
-                  <th className="border p-2">Peso</th>
-                  <th
-                    className="border p-2 cursor-pointer"
                     onClick={() => handleSort("type")}
                   >
                     Tipo {getSortIcon("type")}
                   </th>
-                  <th className="border p-2">Características</th>
-                  <th className="border p-2">Benefícios</th>
-                  <th className="border p-2">Composição</th>
-                  <th className="border p-2">Analíticos</th>
-                  <th className="border p-2">Aditivos Adicionais</th>
-                  <th className="border p-2">Aditivos Tecnológicos</th>
                 </tr>
               </thead>
               <tbody>
                 {sortedFoods.map((product) => (
                   <tr key={product.id} className="hover:bg-gray-50">
                     <td
-                      className="border p-4 cursor-pointer items-center"
+                      className="border p-4 cursor-pointer"
                       onClick={() => handleRemove(product.id)}
                     >
                       <FaTrashAlt />
@@ -152,7 +136,7 @@ const ListProduct: React.FC = () => {
                     <td className="border p-2 text-center">
                       <img
                         src={product.image}
-                        alt={`${product.name} - ${product.weight}`}
+                        alt={product.name}
                         className="h-16 w-16 object-co mx-auto"
                       />
                     </td>
@@ -160,56 +144,10 @@ const ListProduct: React.FC = () => {
                       className="border p-2 overflow-hidden overflow-ellipsis max-h-24 cursor-pointer"
                       onClick={() => handleEdit(product.id)}
                     >
-                      {`${product.name} - ${product.weight}`}
+                      {product.name}
                     </td>
-                    <td className="border p-2">{product.brand}</td>
-                    <td className="border p-2">{`${product.price}€`}</td>
-                    <td className="border p-2">{product.stock}</td>
-                    <td className="border p-2">{product.weight}</td>
                     <td className="border p-2">
-                      {product.type == "cao" ? "Cão" : "Gato"}
-                    </td>
-                    <td className="border p-2 overflow-hidden overflow-ellipsis max-h-24">
-                      <div className="line-clamp-5">
-                        {product.features != null
-                          ? product.features
-                              .split("<br>")
-                              .map((line, index) => (
-                                <p key={index} className="text-gray-700">
-                                  {line}
-                                </p>
-                              ))
-                          : " "}
-                      </div>
-                    </td>
-                    <td className="border p-2 overflow-hidden overflow-ellipsis max-h-24">
-                      <div className="line-clamp-5">
-                        {product.benefits != null
-                          ? product.benefits
-                              .split("<br>")
-                              .map((line, index) => (
-                                <p key={index} className="text-gray-700">
-                                  {line}
-                                </p>
-                              ))
-                          : " "}
-                      </div>
-                    </td>
-                    <td className="border p-2 overflow-hidden overflow-ellipsis max-h-24">
-                      <div className="line-clamp-5">{product.composition}</div>
-                    </td>
-                    <td className="border p-2 overflow-hidden overflow-ellipsis max-h-24">
-                      <div className="line-clamp-5">{product.analytical}</div>
-                    </td>
-                    <td className="border p-2 overflow-hidden overflow-ellipsis max-h-24">
-                      <div className="line-clamp-5">
-                        {product.additional_additives}
-                      </div>
-                    </td>
-                    <td className="border p-2 overflow-hidden overflow-ellipsis max-h-24">
-                      <div className="line-clamp-5">
-                        {product.technological_additives}
-                      </div>
+                      {product.type == "peixe" ? "Peixe" : "Réptil"}
                     </td>
                   </tr>
                 ))}
@@ -221,5 +159,4 @@ const ListProduct: React.FC = () => {
     </>
   );
 };
-
-export default ListProduct;
+export default ListAlive;
