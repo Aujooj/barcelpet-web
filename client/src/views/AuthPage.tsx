@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const AuthPage: React.FC = () => {
-  const { token, setToken, setUser, setUserId } = useAuth();
+  const { token, setToken, setUser } = useAuth();
   const [isRegister, setIsRegister] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -67,8 +67,7 @@ const AuthPage: React.FC = () => {
         throw new Error(data.message);
       } else if (!isRegister) {
         setToken(data.token);
-        setUserId(data.user.id);
-        setUser(data.user.name);
+        setUser(data.user);
         navigate("/dashboard");
       }
       setError(null);

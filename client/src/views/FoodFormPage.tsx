@@ -90,9 +90,37 @@ const FoodFormPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    let uploadedImagePath = formData.image;
+    if (imagePreview && formData.image !== "/logo.png") {
+      const imageFile = (
+        document.querySelector('input[type="file"]') as HTMLInputElement
+      ).files?.[0];
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append("image", imageFile);
+
+        const uploadResponse = await fetch(
+          "http://localhost:3000/product/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (uploadResponse.ok) {
+          const uploadData = await uploadResponse.json();
+          uploadedImagePath = uploadData.imagePath;
+        } else {
+          alert("Image upload failed.");
+          return;
+        }
+      }
+    }
+
     const updatedFormData = isAdd
-      ? { ...formData, id: undefined }
-      : { ...formData };
+      ? { ...formData, id: undefined, image: uploadedImagePath }
+      : { ...formData, image: uploadedImagePath };
     const transformedData = {
       ...updatedFormData,
       features: updatedFormData.features?.replace(/\n/g, "<br>"),

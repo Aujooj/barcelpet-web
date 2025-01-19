@@ -6,6 +6,11 @@ import React, {
   ReactNode,
 } from "react";
 import AuthContextType from "../interfaces/AuthContextType";
+import User from "../interfaces/User";
+import * as CryptoJS from "crypto-js";
+
+const ENCRYPTION_KEY =
+  "emfi*pbvY93c$aQMQBAMs@uS8#KjdFx#jNYk#euvSTSrgXW$A8B3j7%E6Q3^AnQ^w!*qTMA5fq%nbQ3HA4&EKLA^FPCfyjY@Mtx6";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -14,26 +19,27 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
+  const [token, setTokenState] = useState<string | null>(null);
+  const [user, setUserState] = useState<User | null>(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
-    const storedUser = localStorage.getItem("loggedUser");
-    const storedUserId = localStorage.getItem("loggedUserId");
-    if (storedToken) setToken(storedToken);
-    if (storedUser) setUser(storedUser);
-    if (storedUserId) setUserId(storedUserId);
-  }, []);
-  useEffect(() => {
-    const storedToken = localStorage.getItem("authToken");
+    const encryptedUser = localStorage.getItem("loggedUser");
 
-    if (storedToken) setToken(storedToken);
+    if (storedToken) setTokenState(storedToken);
+    if (encryptedUser) {
+      try {
+        const bytes = CryptoJS.AES.decrypt(encryptedUser, ENCRYPTION_KEY);
+        const decryptedUser = JSON.parse(bytes.toString(CryptoJS.enc.Utf8)) as User;
+        setUserState(decryptedUser);
+      } catch (e) {
+        console.error("Failed to decrypt user data", e);
+      }
+    }
   }, []);
 
-  const updateToken = (newToken: string | null) => {
-    setToken(newToken);
+  const setToken = (newToken: string | null) => {
+    setTokenState(newToken);
     if (newToken) {
       localStorage.setItem("authToken", newToken);
     } else {
@@ -41,9 +47,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const setUser = (newUser: User | null) => {
+    setUserState(newUser);
+    if (newUser) {
+      try {
+        const encryptedUser = CryptoJS.AES.encrypt(
+          JSON.stringify(newUser),
+          ENCRYPTION_KEY
+        ).toString();
+        localStorage.setItem("loggedUser", encryptedUser);
+      } catch (e) {
+        console.error("Failed to encrypt user data", e);
+      }
+    } else {
+      localStorage.removeItem("loggedUser");
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("authToken");
-    setToken(null);
+    localStorage.removeItem("loggedUser");
+    setTokenState(null);
+    setUserState(null);
   };
 
   return (
@@ -51,10 +76,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       value={{
         token,
         user,
-        userId,
-        setToken: updateToken,
+        setToken,
         setUser,
-        setUserId,
         logout,
       }}
     >

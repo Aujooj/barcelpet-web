@@ -7,6 +7,7 @@ import {
   App,
   AuthPage,
   BrandDetails,
+  CartPage,
   Dashboard,
   FoodBrand,
   FoodDetails,
@@ -89,6 +90,14 @@ export const router = createBrowserRouter([
             element: (
               <ProtectedRoute>
                 <ListAlive />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "carrinho",
+            element: (
+              <ProtectedRoute>
+                <CartPage />
               </ProtectedRoute>
             ),
           },

@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
   const uri = window.location.pathname.split("/");
-
   const [isNavActive, setIsNavActive] = useState(false);
+  const { token } = useAuth();
+  const navigate = useNavigate();
 
   const handleMenuToggle = () => {
     setIsNavActive(!isNavActive);
@@ -14,6 +17,16 @@ const Header = () => {
   const handleCloseMenu = () => {
     setIsNavActive(false);
   };
+  
+  const handleCartClick = () => {
+    if (!token) 
+      navigate("/login");
+    else 
+      navigate("/dashboard/carrinho");
+    
+  };
+
+  const { distinctItemsCount } = useCart();
 
   return (
     <header>
@@ -119,30 +132,38 @@ const Header = () => {
                 Quem somos?
               </Link>
             </li>
-            <li>
-              <Link
-                to="/login"
-                className="bg-primary text-white px-4 py-2 rounded-md hover:bg-secondary transition"
-              >
-                Agende já
-              </Link>
-            </li>
           </ul>
-          <div id="mobile" className="md:hidden flex items-center">
-            {!isNavActive && (
-              <FaBars
-              id="bar"
-              className="w-6 h-6 cursor-pointer"
-              onClick={handleMenuToggle}
-            />
-            )}
-            {isNavActive && (
-              <FaTimes
-              id="close"
-              className="top-4 right-6 w-6 h-6 cursor-pointer z-[60]"
-              onClick={handleCloseMenu}
-            />
-            )}
+          <div className="flex items-center space-x-6">
+            <Link
+              to="/login"
+              className="bg-primary text-white px-4 py-2 rounded-md hover:bg-secondary transition"
+            >
+              Agende já
+            </Link>
+            <div className="relative">
+              <FaShoppingCart onClick={handleCartClick} className="w-6 h-6 text-primary hover:text-secondary transition" />
+              {distinctItemsCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {distinctItemsCount}
+                </span>
+              )}
+            </div>
+            <div id="mobile" className="md:hidden flex items-center">
+              {!isNavActive && (
+                <FaBars
+                  id="bar"
+                  className="w-6 h-6 cursor-pointer"
+                  onClick={handleMenuToggle}
+                />
+              )}
+              {isNavActive && (
+                <FaTimes
+                  id="close"
+                  className="top-4 right-6 w-6 h-6 cursor-pointer z-[60]"
+                  onClick={handleCloseMenu}
+                />
+              )}
+            </div>
           </div>
         </div>
       </section>

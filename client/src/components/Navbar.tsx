@@ -75,7 +75,7 @@ const Navbar: React.FC = () => {
               to="/settings"
               className="block py-2 px-4 rounded hover:bg-secondary hover:text-white transition"
             >
-              <FaUserCircle className="inline mr-2" />{user}
+              <FaUserCircle className="inline mr-2" />{user?.name}
             </Link>
           </li>
           <li>

@@ -5,6 +5,7 @@ import AliveType from "./AliveType";
 import AuthPage from "../views/AuthPage";
 import App from "../App";
 import BrandDetails from "./BrandDetails";
+import CartPage from "./CartPage";
 import Dashboard from "./Dashboard";
 import FoodBrand from "./FoodBrand";
 import FoodDetails from "../views/FoodDetails";
@@ -25,6 +26,7 @@ export {
   AuthPage,
   App,
   BrandDetails,
+  CartPage,
   Dashboard,
   FoodBrand,
   FoodDetails,
