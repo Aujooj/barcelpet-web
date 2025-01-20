@@ -1,11 +1,20 @@
 import prisma from "../prisma/prisma.js";
 
-export async function createOrderAsync(userId, totalAmount, cartItems) {
+export async function createOrderAsync(
+  userId,
+  cartItems,
+  deliveryOption,
+  address,
+  phone
+) {
   const order = await prisma.order.create({
     data: {
-      orderNumber: `Pedido-${Date.now()}`,
+      orderNumber: `BP${userId}P${Date.now()}`,
       status: "Pendente",
       userId: userId,
+      deliveryOption: deliveryOption,
+      address: address,
+      phone: phone,
     },
   });
 
@@ -31,17 +40,23 @@ export async function getOrderByIdAsync(id) {
       },
     },
   });
-  return order; 
+  return order;
 }
 
 export async function getOrdersByUserAsync(userId) {
   const orders = await prisma.order.findMany({
-    where: { userId: parseInt(userId) },
     include: {
-      orderItems: true,
+      orderItems: {
+        include: {
+          product: true,
+        },
+      },
+    },
+    where: { id: userId },
+    orderBy: {
+      orderNumber: "desc",
     },
   });
-  
   return orders;
 }
 
@@ -52,5 +67,30 @@ export async function updateOrderStatusAsync(id, status) {
       status: status,
     },
   });
-  return order; 
+  return order;
+}
+
+export async function getAllOrdersAsync() {
+  const orders = await prisma.order.findMany({
+    include: {
+      orderItems: {
+        include: {
+          product: true,
+        },
+      },
+    },
+    orderBy: {
+      orderNumber: "desc",
+    },
+  });
+  return orders;
+}
+
+export async function cancelOrderbyId(orderId) {
+  const updatedOrder = await prisma.order.update({
+    where: { id: orderId },
+    data: { status: "Cancelado" },
+  });
+
+  return updatedOrder;
 }

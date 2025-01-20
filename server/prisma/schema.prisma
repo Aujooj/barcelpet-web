@@ -52,14 +52,17 @@ model User {
 }
 
 model Order {
-  id           Int @id @default(autoincrement())
-  orderNumber  String @unique
-  status       String @default("pending")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  userId       Int
-  user         User @relation(fields: [userId], references: [id])
-  orderItems   OrderItem[]
+  id              Int @id @default(autoincrement())
+  orderNumber     String @unique
+  status          String @default("pending")
+  deliveryOption  String
+  address         String
+  phone           String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  userId          Int
+  user            User @relation(fields: [userId], references: [id])
+  orderItems      OrderItem[]
 }
 
 model OrderItem {
