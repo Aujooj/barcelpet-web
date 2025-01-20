@@ -8,6 +8,7 @@ import {
   AuthPage,
   BrandDetails,
   CartPage,
+  Checkout,
   Dashboard,
   FoodBrand,
   FoodDetails,
@@ -18,7 +19,9 @@ import {
   ListProduct,
   Loader,
   NotFoundPage,
+  OrderSent,
   Services,
+  UserFormPage,
 } from "../views/AllViews";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 
@@ -94,10 +97,34 @@ export const router = createBrowserRouter([
             ),
           },
           {
+            path: "definicoes",
+            element: (
+              <ProtectedRoute>
+                <UserFormPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
             path: "carrinho",
             element: (
               <ProtectedRoute>
                 <CartPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "checkout",
+            element: (
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "thank-you",
+            element: (
+              <ProtectedRoute>
+                <OrderSent />
               </ProtectedRoute>
             ),
           },

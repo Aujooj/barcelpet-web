@@ -23,12 +23,25 @@ export async function createUser(name, email, password) {
         name,
         email,
         password,
-        phone: "",
+        role: "user",
       },
     });
     return user;
   } catch (e) {
     throw new Error("Esse endereço de email já está em uso");
     
+  }
+}
+
+export async function updateUserInDb(id, updatedUserData) {
+  try {
+    const user = await prisma.user.update({
+      where: { id: parseInt(id) },
+      data: updatedUserData, 
+    });
+
+    return user;
+  } catch (e) {
+    throw new Error("Erro ao atualizar usuário");
   }
 }

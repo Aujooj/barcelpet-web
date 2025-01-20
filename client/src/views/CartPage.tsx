@@ -1,28 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { FaTimes } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 const CartPage: React.FC = () => {
-  const { cart, removeFromCart, clearCart, updateQuantity, calculateTotalPrice } = useCart();
-  const [quantities, setQuantities] = useState<number[]>(cart.items.map((item) => item.quantity));
+  const {
+    cart,
+    removeFromCart,
+    clearCart,
+    updateQuantity,
+    calculateTotalPrice,
+  } = useCart();
+  const [quantities, setQuantities] = useState<number[]>(
+    cart.items.map((item) => item.quantity)
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
-    setQuantities(cart.items.map((item) => item.quantity)); // Sync local state with cart on initial load
+    setQuantities(cart.items.map((item) => item.quantity));
   }, [cart.items]);
 
   const handleQuantityChange = (index: number, newQuantity: number) => {
     const item = cart.items[index];
     if (newQuantity <= 0) {
-      removeFromCart(item.product.id); // Remove item if quantity is 0 or below
+      removeFromCart(item.product.id);
     } else {
-      // Update both local state and global state
       const updatedQuantities = [...quantities];
       updatedQuantities[index] = newQuantity;
       setQuantities(updatedQuantities);
-      updateQuantity(item.product.id, newQuantity, item.product.stock); // Update global cart state
+      updateQuantity(item.product.id, newQuantity, item.product.stock);
     }
   };
 
@@ -31,7 +38,7 @@ const CartPage: React.FC = () => {
   };
 
   const handleCheckout = () => {
-    navigate("/checkout");
+    navigate("/dashboard/checkout");
   };
 
   return (
@@ -69,8 +76,14 @@ const CartPage: React.FC = () => {
                         className="h-16 w-16 object-cover mx-auto"
                       />
                     </td>
-                    <td className="border p-4">{item.product.name} - {item.product.weight}</td>
-                    <td className="border p-4">{item.product.price} €</td>
+                    <td className="border p-4">
+                      <Link
+                        to={`/alimentacao/${item.product.type}/${item.product.brand}/${item.product.id}`}
+                      >
+                        {item.product.name} - {item.product.weight}
+                      </Link>
+                    </td>
+                    <td className="border p-4">€{item.product.price}</td>
                     <td className="border p-4">
                       <div className="flex items-center justify-center gap-2">
                         <button
@@ -103,7 +116,7 @@ const CartPage: React.FC = () => {
                       </div>
                     </td>
                     <td className="border p-4">
-                      {item.product.price * quantities[index]} €
+                    €{(item.product.price * quantities[index]).toFixed(2)}
                     </td>
                     <td className="border p-4 text-center">
                       <button
@@ -129,7 +142,7 @@ const CartPage: React.FC = () => {
               Limpar Carrinho
             </button>
             <div className="text-xl font-semibold">
-              Total: {calculateTotalPrice()} €
+              Total: €{calculateTotalPrice()}
             </div>
             <button
               className="bg-primary text-white px-6 py-3 rounded hover:bg-secondary"

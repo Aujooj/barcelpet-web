@@ -4,4 +4,8 @@ export default interface User {
     phone: string;
     email: string;
     password: string;
+    role: string;
+    address: string;
+    city: string;
+    postal_code: string;
 }

@@ -12,16 +12,15 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 const cartReducer = (state: CartState, action: any): CartState => {
   switch (action.type) {
     case "ADD_TO_CART":
-      const { product, quantity, stock: addToCartStock } = action.payload;  // Rename stock here to addToCartStock
-      const validQuantity = quantity > addToCartStock ? addToCartStock : quantity;
+      const { product, quantity, stock: addToCartStock } = action.payload;
+      const validQuantity =
+        quantity > addToCartStock ? addToCartStock : quantity;
 
-      // Check if the product already exists in the cart
       const existingItemIndex = state.items.findIndex(
         (item) => item.product.id === product.id
       );
 
       if (existingItemIndex !== -1) {
-        // If product exists, update its quantity
         const updatedItems = [...state.items];
         updatedItems[existingItemIndex] = {
           ...updatedItems[existingItemIndex],
@@ -29,7 +28,6 @@ const cartReducer = (state: CartState, action: any): CartState => {
         };
         return { items: updatedItems };
       } else {
-        // If product does not exist, add it to the cart
         return {
           items: [...state.items, { product, quantity: validQuantity }],
         };
@@ -46,10 +44,16 @@ const cartReducer = (state: CartState, action: any): CartState => {
       return { items: [] };
 
     case "UPDATE_QUANTITY":
-      const { productId, newQuantity, stock: updateQuantityStock } = action.payload; // Rename stock here to updateQuantityStock
+      const {
+        productId,
+        newQuantity,
+        stock: updateQuantityStock,
+      } = action.payload;
 
-      // Validate the quantity (ensure it doesn't go below 1 or above stock)
-      const validNewQuantity = Math.max(1, Math.min(newQuantity, updateQuantityStock));
+      const validNewQuantity = Math.max(
+        1,
+        Math.min(newQuantity, updateQuantityStock)
+      );
 
       const updatedItems = state.items.map((item) =>
         item.product.id === productId
@@ -84,14 +88,19 @@ const loadCartFromLocalStorage = (): CartState => {
 const saveCartToLocalStorage = (cart: CartState) => {
   try {
     const cartData = JSON.stringify(cart);
-    const encryptedCartData = CryptoJS.AES.encrypt(cartData, ENCRYPTION_KEY).toString();
+    const encryptedCartData = CryptoJS.AES.encrypt(
+      cartData,
+      ENCRYPTION_KEY
+    ).toString();
     localStorage.setItem("cart", encryptedCartData);
   } catch (error) {
     console.error("Falha ao salvar carrinho ", error);
   }
 };
 
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [cart, dispatch] = useReducer(
     cartReducer,
     { items: [] },
@@ -103,6 +112,18 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [cart]);
 
   const addToCart = (product: Product, quantity: number, stock: number) => {
+    const existingItem = cart.items.find(
+      (item) => item.product.id === product.id
+    );
+    const currentQuantity = existingItem ? existingItem.quantity : 0;
+    const newTotalQuantity = currentQuantity + quantity;
+
+    if (newTotalQuantity > stock) {
+      console.error("Não é possível adicionar mais artigos do que os disponíveis em stock.");
+      alert("Não é possível adicionar mais artigos do que os disponíveis em stock.");
+      return;
+    }
+
     dispatch({
       type: "ADD_TO_CART",
       payload: { product, quantity, stock },
@@ -117,7 +138,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     dispatch({ type: "CLEAR_CART" });
   };
 
-  const updateQuantity = (productId: number, newQuantity: number, stock: number) => {
+  const updateQuantity = (
+    productId: number,
+    newQuantity: number,
+    stock: number
+  ) => {
     dispatch({
       type: "UPDATE_QUANTITY",
       payload: { productId, newQuantity, stock },

@@ -124,7 +124,7 @@
                     </th>
 
                     <th className="border p-2">Preço</th>
-                    <th className="border p-2">Qtd. Estoque</th>
+                    <th className="border p-2">Qtd. Stock</th>
                     <th className="border p-2">Peso</th>
                     <th
                       className="border p-2 cursor-pointer"
@@ -163,7 +163,7 @@
                         {`${product.name} - ${product.weight}`}
                       </td>
                       <td className="border p-2">{product.brand}</td>
-                      <td className="border p-2">{`${product.price}€`}</td>
+                      <td className="border p-2">{`€${product.price}`}</td>
                       <td className="border p-2">{product.stock}</td>
                       <td className="border p-2">{product.weight}</td>
                       <td className="border p-2">

@@ -70,7 +70,7 @@ const FoodDetails: React.FC = () => {
               {product.stock > 0 ? (
                 <>
                   <p className="product-price text-xl font-semibold text-gray-800 mt-4">
-                    Preço: {product.price} €
+                    Preço: €{product.price}
                   </p>
                   <p className="text-sm text-gray-500 mt-1">COM IVA</p>
                   <div className="mt-4 flex items-center space-x-4">
@@ -102,7 +102,7 @@ const FoodDetails: React.FC = () => {
                 </>
               ) : (
                 <p className="text-xl font-bold text-red-600 mt-6">
-                  Fora de Estoque
+                  Fora de Stock
                 </p>
               )}
             </div>

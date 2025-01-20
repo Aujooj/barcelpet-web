@@ -1,10 +1,6 @@
 import cors from "cors";
 import express from "express";
-import { login, register } from "../controllers/usersController.js";
-import bcrypt from "bcryptjs";
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { login, register, update} from "../controllers/usersController.js";
 
 const corsOptions = {
   origin: "http://localhost:5173",
@@ -17,6 +13,7 @@ const routes = (app) => {
 
   app.post("/api/auth/register", register);
   app.post("/api/auth/login", login);
+  app.put("/api/users/update/:id", update);
 
 };
 

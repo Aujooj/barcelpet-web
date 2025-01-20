@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar.tsx";
 import Product from "../interfaces/Product.tsx";
-import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { IoIosArrowRoundBack } from "react-icons/io";
 
 const FoodFormPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -161,125 +161,127 @@ const FoodFormPage: React.FC = () => {
     <>
       <Navbar />
       <div className="min-h-screen ml-64 p-10 flex flex-col bg-gray-100">
-        <div className="flex items-center justify-between mb-5 w-full">
-          <IoArrowBackCircleOutline
-            className="w-12 h-12 cursor-pointer"
-            onClick={handleGoBack}
-          />
-          <h1 className="text-2xl font-bold">
-            {isAdd ? "Adicionar" : "Alterar"} Produto
-          </h1>
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="p-2 w-40 bg-primary text-white rounded hover:bg-secondary"
-          >
-            {isAdd ? "ENVIAR" : "ATUALIZAR"}
-          </button>
+        <div className="overflow-x-auto mx-6 p-8 bg-white shadow-lg rounded-lg">
+          <div className="flex items-center justify-between mb-5 w-full">
+            <IoIosArrowRoundBack
+              className="w-12 h-12 cursor-pointer text-primary hover:text-secondary"
+              onClick={handleGoBack}
+            />
+            <h1 className="text-2xl font-bold">
+              {isAdd ? "Adicionar" : "Alterar"} Produto
+            </h1>
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="p-2 w-40 bg-primary text-white rounded hover:bg-secondary"
+            >
+              {isAdd ? "ENVIAR" : "ATUALIZAR"}
+            </button>
+          </div>
+          <form className="flex flex-col space-y-4">
+            <label>Nome*</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+            />
+            <label>Preço*</label>
+            <input
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+            />
+            <label>Quantidade em Stock*</label>
+            <input
+              type="number"
+              name="stock"
+              value={formData.stock}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+            />
+            <label>Peso*</label>
+            <input
+              type="text"
+              name="weight"
+              value={formData.weight}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+            />
+            <label>Tipo de animal*</label>
+            <select
+              name="type"
+              value={formData.type}
+              onChange={handleChange}
+              className="p-1 border border-gray-300 rounded"
+            >
+              <option value="" defaultChecked disabled>
+                Escolha
+              </option>
+              <option value="cao">Cão</option>
+              <option value="gato">Gato</option>
+            </select>
+            <label>Imagem</label>
+            {imagePreview && (
+              <img src={imagePreview} alt="Preview" className="mt-2 max-w-40" />
+            )}
+            <input type="file" onChange={handleImageChange} className="py-2" />
+            <label>Marca</label>
+            <input
+              type="text"
+              name="brand"
+              value={formData.brand}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+            />
+            <label>Características</label>
+            <textarea
+              name="features"
+              value={formData.features}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+            />
+            <label>Benefícios</label>
+            <textarea
+              name="benefits"
+              value={formData.benefits}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+            />
+            <label>Composição</label>
+            <textarea
+              name="composition"
+              value={formData.composition}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+            />
+            <label>Componentes Analíticos</label>
+            <textarea
+              name="analytical"
+              value={formData.analytical}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+            />
+            <label>Aditivos Adicionais</label>
+            <textarea
+              name="additional_additives"
+              value={formData.additional_additives}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+            />
+            <label>Aditivos Tecnológicos</label>
+            <textarea
+              name="technological_additives"
+              value={formData.technological_additives}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+            />
+            <p>(*) Campos obrigatórios</p>
+          </form>
         </div>
-        <form className="flex flex-col space-y-4">
-          <label>Nome*</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded"
-          />
-          <label>Preço*</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded"
-          />
-          <label>Quantidade em estoque*</label>
-          <input
-            type="number"
-            name="stock"
-            value={formData.stock}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded"
-          />
-          <label>Peso*</label>
-          <input
-            type="text"
-            name="weight"
-            value={formData.weight}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded"
-          />
-          <label>Tipo de animal*</label>
-          <select
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-            className="p-1 border border-gray-300 rounded"
-          >
-            <option value="" defaultChecked disabled>
-              Escolha
-            </option>
-            <option value="cao">Cão</option>
-            <option value="gato">Gato</option>
-          </select>
-          <label>Imagem</label>
-          {imagePreview && (
-            <img src={imagePreview} alt="Preview" className="mt-2 max-w-40" />
-          )}
-          <input type="file" onChange={handleImageChange} className="py-2" />
-          <label>Marca</label>
-          <input
-            type="text"
-            name="brand"
-            value={formData.brand}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded"
-          />
-          <label>Características</label>
-          <textarea
-            name="features"
-            value={formData.features}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded"
-          />
-          <label>Benefícios</label>
-          <textarea
-            name="benefits"
-            value={formData.benefits}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded"
-          />
-          <label>Composição</label>
-          <textarea
-            name="composition"
-            value={formData.composition}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded"
-          />
-          <label>Componentes Analíticos</label>
-          <textarea
-            name="analytical"
-            value={formData.analytical}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded"
-          />
-          <label>Aditivos Adicionais</label>
-          <textarea
-            name="additional_additives"
-            value={formData.additional_additives}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded"
-          />
-          <label>Aditivos Tecnológicos</label>
-          <textarea
-            name="technological_additives"
-            value={formData.technological_additives}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded"
-          />
-          <p>(*) Campos obrigatórios</p>
-        </form>
       </div>
     </>
   );

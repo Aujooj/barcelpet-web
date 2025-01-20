@@ -17,13 +17,10 @@ const Header = () => {
   const handleCloseMenu = () => {
     setIsNavActive(false);
   };
-  
+
   const handleCartClick = () => {
-    if (!token) 
-      navigate("/login");
-    else 
-      navigate("/dashboard/carrinho");
-    
+    if (!token) navigate("/login");
+    else navigate("/dashboard/carrinho");
   };
 
   const { distinctItemsCount } = useCart();
@@ -140,8 +137,8 @@ const Header = () => {
             >
               Agende já
             </Link>
-            <div className="relative">
-              <FaShoppingCart onClick={handleCartClick} className="w-6 h-6 text-primary hover:text-secondary transition" />
+            <div className="relative cursor-pointer" onClick={handleCartClick}>
+              <FaShoppingCart className="w-6 h-6 text-primary hover:text-secondary transition" />
               {distinctItemsCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {distinctItemsCount}
