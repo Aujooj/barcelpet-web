@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Service from "../interfaces/Service";
 import Loading from "../components/Loading";
+import { Link } from "react-router";
 
 const Services: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -46,7 +47,7 @@ const Services: React.FC = () => {
                     <img
                       src={service.image}
                       alt={`Imagem de ${service.title}`}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-60 object-cover"
                     />
                     <div className="p-6">
                       <h3 className="text-xl font-semibold text-primary mb-2">
@@ -75,12 +76,12 @@ const Services: React.FC = () => {
             <p className="text-lg mb-6">
               Entre em contato conosco para agendar um serviço personalizado.
             </p>
-            <a
-              href="https://buk.pt/barcelpet"
+            <Link
+              to="/dashboard/servicos"
               className="bg-white text-primary px-6 py-3 rounded-md hover:bg-gray-100 transition"
             >
               Agende agora
-            </a>
+            </Link>
           </div>
         </section>
       </div>

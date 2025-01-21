@@ -22,8 +22,11 @@ import {
   OrderSent,
   Services,
   UserFormPage,
+  OrdersDashboard,
+  ListServices,
 } from "../views/AllViews";
 import { ProtectedRoute } from "../components/ProtectedRoute";
+import AppointmentDashboard from "../views/AppointmentDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -77,6 +80,30 @@ export const router = createBrowserRouter([
             element: (
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "servicos",
+            element: (
+              <ProtectedRoute>
+                <ListServices />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "marcacoes",
+            element: (
+              <ProtectedRoute>
+                <AppointmentDashboard />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "pedidos",
+            element: (
+              <ProtectedRoute>
+                <OrdersDashboard />
               </ProtectedRoute>
             ),
           },

@@ -1,12 +1,12 @@
 import React from "react";
 import { CiLogout } from "react-icons/ci";
-import { FaDog, FaHome, FaShoppingBag, FaUserCircle } from "react-icons/fa";
+import { FaHome, FaShoppingBag, FaSoap, FaUserCircle } from "react-icons/fa";
 import { FaFishFins, FaScissors } from "react-icons/fa6";
-import { MdDashboard } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import { LuNotepadText } from "react-icons/lu";
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
@@ -21,16 +21,6 @@ const Navbar: React.FC = () => {
       </div>
 
       <ul className="space-y-4 flex-grow px-4">
-        <li>
-          <Link
-            to="/dashboard"
-            className="block py-2 px-4 rounded hover:bg-secondary hover:text-white transition"
-          >
-            <MdDashboard className="inline mr-2 w-5 h-5" />
-            Painel
-          </Link>
-        </li>
-
         {user?.role === "admin" && (
           <>
             <li>
@@ -51,27 +41,38 @@ const Navbar: React.FC = () => {
                 Animais Vivos
               </Link>
             </li>
-            <li>
-              <Link
-                to="/services"
-                className="block py-2 px-4 rounded hover:bg-secondary hover:text-white transition"
-              >
-                <FaScissors className="inline mr-2 w-5 h-5" />
-                Serviços
-              </Link>
-            </li>
           </>
         )}
 
         <li>
           <Link
-            to="/animals"
+            to="/dashboard/marcacoes"
             className="block py-2 px-4 rounded hover:bg-secondary hover:text-white transition"
           >
-            <FaDog className="inline mr-2 w-5 h-5" />
-            {user?.role === "user" ? "Meus " : ""}Animais
+            <FaSoap className="inline mr-2 w-5 h-5" />
+            Marcações
           </Link>
         </li>
+        <li>
+          <Link
+            to="/dashboard/pedidos"
+            className="block py-2 px-4 rounded hover:bg-secondary hover:text-white transition"
+          >
+            <LuNotepadText className="inline mr-2 w-5 h-5" />
+            Pedidos
+          </Link>
+        </li>
+        {user?.role === "admin" && (
+          <li>
+            <Link
+              to="/dashboard/servicos"
+              className="block py-2 px-4 rounded hover:bg-secondary hover:text-white transition"
+            >
+              <FaScissors className="inline mr-2 w-5 h-5" />
+              Serviços
+            </Link>
+          </li>
+        )}
         <li>
           <Link
             to="/"

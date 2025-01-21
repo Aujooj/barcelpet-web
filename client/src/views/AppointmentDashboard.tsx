@@ -1,11 +1,11 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 
-const Dashboard: React.FC = () => {
+const AppointmentDashboard: React.FC = () => {
   return (
     <>
       <Navbar />
     </>
   );
 };
-export default Dashboard;
+export default AppointmentDashboard;

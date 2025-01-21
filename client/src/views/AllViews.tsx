@@ -1,4 +1,6 @@
 import AboutUs from "./AboutUs";
+import AddApointment from "./AddAppointment";
+import ApointmentDashboard from "./AppointmentDashboard";
 import AliveAnimals from "../views/AliveAnimal";
 import AliveFormPage from "./AliveFormPage";
 import AliveType from "./AliveType";
@@ -15,17 +17,22 @@ import FoodType from "./FoodType";
 import Home from "./Home";
 import ListAlive from "./ListAlive";
 import ListProduct from "./ListProduct";
+import ListServices from "./ListServices";
 import Loader from "../components/Loader";
 import NotFoundPage from "./NotFoundPage";
-import OrderSent  from "./OrderSent";
+import OrdersDashboard from "./OrdersDashboard";
+import OrderSent from "./OrderSent";
 import Services from "./Services";
+import ServiceFormPage from "./ServiceFormPage";
 import UserFormPage from "./UserFormPage";
 
 export {
   AboutUs,
+  AddApointment,
   AliveAnimals,
   AliveFormPage,
   AliveType,
+  ApointmentDashboard,
   AuthPage,
   App,
   BrandDetails,
@@ -39,9 +46,12 @@ export {
   Home,
   ListAlive,
   ListProduct,
+  ListServices,
   Loader,
   NotFoundPage,
+  OrdersDashboard,
   OrderSent,
   Services,
+  ServiceFormPage,
   UserFormPage,
 };
