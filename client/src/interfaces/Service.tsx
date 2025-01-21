@@ -1,6 +1,12 @@
+import ServiceCategory from "./ServiceCategory";
+
 export default interface Service {
   id: number;
-  title: string;
-  description: string;
-  image: string;
+  categoryId: number;
+  category: ServiceCategory;
+  petType: string;
+  minWeight: number;
+  maxWeight: number;
+  price: number;
+  duration: number;
 }

@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Service from "../interfaces/Service";
+import Footer from "../components/Footer";;
 import Loading from "../components/Loading";
+import ServiceCategory from "../interfaces/ServiceCategory";
 import { Link } from "react-router";
 
 const Services: React.FC = () => {
-  const [services, setServices] = useState<Service[]>([]);
+  const [services, setServices] = useState<ServiceCategory[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/info/services")
+    fetch("http://localhost:3000/info/serviceCategories")
       .then((res) => res.json())
       .then((data) => {
         setServices(data);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, []);
 
   return (

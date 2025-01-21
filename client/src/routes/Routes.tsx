@@ -24,6 +24,8 @@ import {
   UserFormPage,
   OrdersDashboard,
   ListServices,
+  ServiceCategoryFormPage,
+  ServiceFormPage,
 } from "../views/AllViews";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import AppointmentDashboard from "../views/AppointmentDashboard";
@@ -34,6 +36,9 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "", element: <Home /> },
+      { path: "sobre", element: <AboutUs /> },
+      { path: "login", element: <AuthPage /> },
+      { path: "servicos", element: <Services /> },
       {
         path: "alimentacao",
         element: <Loader />,
@@ -52,25 +57,6 @@ export const router = createBrowserRouter([
           { path: ":animalType", element: <AliveAnimals /> },
         ],
       },
-      { path: "servicos", element: <Services /> },
-      { path: "sobre", element: <AboutUs /> },
-      { path: "login", element: <AuthPage /> },
-      {
-        path: "dashboard/alimentacao/:id",
-        element: (
-          <ProtectedRoute>
-            <FoodFormPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "dashboard/vivos/:id",
-        element: (
-          <ProtectedRoute>
-            <AliveFormPage />
-          </ProtectedRoute>
-        ),
-      },
       {
         path: "dashboard",
         element: <Loader />,
@@ -84,10 +70,58 @@ export const router = createBrowserRouter([
             ),
           },
           {
+            path: "alimentacao",
+            element: (
+              <ProtectedRoute>
+                <ListProduct />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "alimentacao/:id",
+            element: (
+              <ProtectedRoute>
+                <FoodFormPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "vivos",
+            element: (
+              <ProtectedRoute>
+                <ListAlive />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "vivos/:id",
+            element: (
+              <ProtectedRoute>
+                <AliveFormPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
             path: "servicos",
             element: (
               <ProtectedRoute>
                 <ListServices />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "servicos/:id",
+            element: (
+              <ProtectedRoute>
+                <ServiceFormPage />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "servicoscategoria/:id",
+            element: (
+              <ProtectedRoute>
+                <ServiceCategoryFormPage />
               </ProtectedRoute>
             ),
           },
@@ -104,22 +138,6 @@ export const router = createBrowserRouter([
             element: (
               <ProtectedRoute>
                 <OrdersDashboard />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: "alimentacao",
-            element: (
-              <ProtectedRoute>
-                <ListProduct />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: "vivos",
-            element: (
-              <ProtectedRoute>
-                <ListAlive />
               </ProtectedRoute>
             ),
           },

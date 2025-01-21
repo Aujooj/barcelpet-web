@@ -24,6 +24,7 @@ import OrdersDashboard from "./OrdersDashboard";
 import OrderSent from "./OrderSent";
 import Services from "./Services";
 import ServiceFormPage from "./ServiceFormPage";
+import ServiceCategoryFormPage from "./ServiceCategoryFormPage";
 import UserFormPage from "./UserFormPage";
 
 export {
@@ -53,5 +54,6 @@ export {
   OrderSent,
   Services,
   ServiceFormPage,
+  ServiceCategoryFormPage,
   UserFormPage,
 };

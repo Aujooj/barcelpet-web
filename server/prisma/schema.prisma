@@ -31,11 +31,23 @@ model Product {
   orderItems              OrderItem[]
 }
 
-model Service {
+model ServiceCategory {
   id          Int @id @default(autoincrement())
   title       String
   description String
   image       String
+  services    Service[]
+}
+
+model Service {
+  id         Int @id @default(autoincrement())
+  categoryId Int
+  category   ServiceCategory @relation(fields: [categoryId], references: [id])
+  petType    String
+  minWeight  Float
+  maxWeight  Float
+  price      Float
+  duration   Int
 }
 
 model User {

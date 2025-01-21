@@ -78,11 +78,6 @@ const routes = (app) => {
     updateProduct(product, req, res);
   });
 
-  app.put("/api/update/product", (req, res) => {
-    const product = req.body;
-    updateProduct(product, req, res);
-  });
-
   app.delete("/api/remove/product", (req, res) => {
     const product = req.body.id;
     removeProduct(product, req, res);
