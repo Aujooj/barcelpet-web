@@ -27,8 +27,9 @@ const OrdersDashboard: React.FC = () => {
   const handleCancel = async (id: number, status: string) => {
     try {
       if (status !== "Pendente") {
-        throw new Error(`O pedido já foi ${status}. Não é possível cancelá-lo!!`);
-        
+        throw new Error(
+          `O pedido já foi ${status}. Não é possível cancelá-lo!!`
+        );
       }
       const response = await fetch(`http://localhost:3000/api/cancel/order`, {
         method: "PUT",
@@ -78,9 +79,9 @@ const OrdersDashboard: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      user.role === "admin"
+      user?.role === "admin"
         ? "http://localhost:3000/api/orders"
-        : `http://localhost:3000/api/orders/${user.id}`
+        : `http://localhost:3000/api/orders/${user?.id}`
     )
       .then((res) => res.json())
       .then((data) => setOrders(data));

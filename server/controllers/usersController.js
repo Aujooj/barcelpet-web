@@ -1,6 +1,7 @@
 import {
   createUser,
   getUserByEmail,
+  getAllUsersByRoleUser,
   generateToken,
   updateUserInDb,
 } from "../models/usersModel.js";
@@ -85,4 +86,9 @@ export async function update(req, res) {
   } catch (e) {
     res.status(400).json({ message: e.message });
   }
+}
+
+export async function getUsersRoleUser(req, res) {
+  const users = await getAllUsersByRoleUser();
+  res.status(200).json(users);
 }

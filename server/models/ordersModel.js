@@ -9,7 +9,7 @@ export async function createOrderAsync(
 ) {
   const order = await prisma.order.create({
     data: {
-      orderNumber: `BP${userId}P${Date.now()}`,
+      orderNumber: `BP${userId}${Date.now()}`,
       status: "Pendente",
       userId: userId,
       deliveryOption: deliveryOption,
@@ -52,7 +52,7 @@ export async function getOrdersByUserAsync(userId) {
         },
       },
     },
-    where: { id: userId },
+    where: { user: { id: userId } },
     orderBy: {
       orderNumber: "desc",
     },

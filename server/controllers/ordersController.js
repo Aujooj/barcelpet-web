@@ -70,7 +70,7 @@ export async function cancelOrder(req, res) {
   const { id } = req.body;
   const orderId = parseInt(id);
   console.log(id);
-  
+
   try {
     const order = await cancelOrderbyId(orderId);
     res.status(200).json(order);

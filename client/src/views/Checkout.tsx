@@ -43,7 +43,7 @@ const Checkout: React.FC = () => {
     const orderData = {
       userId: user?.id,
       totalAmount: totalWithDelivery,
-      cartItems: cart.items.map(item => ({
+      cartItems: cart.items.map((item) => ({
         productId: item.product.id,
         quantity: item.quantity,
       })),
@@ -54,7 +54,7 @@ const Checkout: React.FC = () => {
       phone: formData.phone,
       email: formData.email,
     };
-  
+
     try {
       const response = await fetch("http://localhost:3000/api/create/order", {
         method: "POST",
@@ -63,16 +63,16 @@ const Checkout: React.FC = () => {
         },
         body: JSON.stringify(orderData),
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to create the order");
       }
-  
+
       const responseData = await response.json();
       console.log("Order created:", responseData);
-  
+
       clearCart();
-  
+
       navigate("/dashboard/thank-you", {
         state: {
           orderTotal: totalWithDelivery.toFixed(2),
@@ -84,8 +84,6 @@ const Checkout: React.FC = () => {
       console.error("Error creating order:", error);
     }
   };
-  
-
 
   return (
     <>
@@ -96,7 +94,6 @@ const Checkout: React.FC = () => {
             Finalizar Compra
           </h1>
           <div className="flex flex-col lg:flex-row gap-10">
-            
             <div className="flex-grow">
               <h2 className="text-xl font-bold mb-4">Itens no Carrinho</h2>
               <div className="space-y-4">
@@ -111,7 +108,6 @@ const Checkout: React.FC = () => {
                       className="flex justify-between items-center p-4 border border-gray-300 rounded"
                     >
                       <div className="flex items-center">
-                        
                         <img
                           src={item.product.image}
                           alt={item.product.name}
@@ -132,7 +128,6 @@ const Checkout: React.FC = () => {
               </div>
             </div>
 
-            
             <div className="lg:w-1/3">
               <h2 className="text-xl font-bold mb-4">Resumo do Pedido</h2>
               <div className="p-4 border border-gray-300 rounded">
@@ -156,14 +151,14 @@ const Checkout: React.FC = () => {
                   </p>
                 ) : (
                   <p className="text-sm text-gray-500 mt-2">
-                    O produto pode ser levantado na loja imediatamente após a confirmação do pedido.
+                    O produto pode ser levantado na loja imediatamente após a
+                    confirmação do pedido.
                   </p>
                 )}
               </div>
             </div>
           </div>
 
-          
           <div className="mt-10">
             <h2 className="text-xl font-bold mb-4">Informações do Cliente</h2>
             <form className="space-y-4">
@@ -229,7 +224,7 @@ const Checkout: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
               <div>
                 <h3 className="font-medium mb-2">Opção de Entrega</h3>
                 <div className="flex space-x-4">

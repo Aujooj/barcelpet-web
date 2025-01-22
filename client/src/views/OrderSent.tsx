@@ -6,7 +6,7 @@ const OrderSent: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  let order_total = location.state.order_total;
+  const orderTotal = location.state.orderTotal;
 
   const handleGoBack = () => {
     navigate("/dashboard");
@@ -21,7 +21,7 @@ const OrderSent: React.FC = () => {
         </h1>
         <p className="text-gray-700 mb-4">
           Para concluir o pagamento, transfira{" "}
-          <span className="font-semibold text-secondary">€{order_total}</span>{" "}
+          <span className="font-semibold text-secondary">€{orderTotal}</span>{" "}
           através do MB WAY para o número abaixo:
         </p>
         <img src="/assets/mbway.png" alt="MB WAY Logo" className="mx-auto w-32 mb-6" />

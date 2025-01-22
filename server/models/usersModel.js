@@ -8,6 +8,14 @@ export async function getUserByEmail(email) {
   return user;
 }
 
+export async function getAllUsersByRoleUser() {
+  const users = await prisma.user.findMany({
+    where: { role: "user" },
+    orderBy: { name: "asc" },
+  });
+  return users;
+}
+
 export function generateToken(user) {
   const payload = {
     id: user.id,
@@ -29,7 +37,6 @@ export async function createUser(name, email, password) {
     return user;
   } catch (e) {
     throw new Error("Esse endereço de email já está em uso");
-    
   }
 }
 
@@ -37,7 +44,7 @@ export async function updateUserInDb(id, updatedUserData) {
   try {
     const user = await prisma.user.update({
       where: { id: parseInt(id) },
-      data: updatedUserData, 
+      data: updatedUserData,
     });
 
     return user;
