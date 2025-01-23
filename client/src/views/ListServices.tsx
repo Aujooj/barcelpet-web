@@ -3,8 +3,8 @@ import Navbar from "../components/Navbar.tsx";
 import { FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading.tsx";
-import ServiceCategory from "../interfaces/ServiceCategory.tsx";
-import Service from "../interfaces/Service.tsx";
+import ServiceCategory from "../interfaces/ServiceCategory.ts";
+import Service from "../interfaces/Service.ts";
 
 const ListService: React.FC = () => {
   const navigate = useNavigate();
@@ -82,10 +82,16 @@ const ListService: React.FC = () => {
           <h1 className="text-4xl font-bold text-center mb-10">Serviços</h1>
           {loading ? (
             <Loading />
+          ) : categories.length === 0 ? (
+            <p className="text-center text-gray-500 text-lg">
+              Não existem categorias de serviço cadastradas.
+            </p>
           ) : (
             <>
               <div className="flex items-center mb-4 gap-3">
-                <h2 className="text-2xl font-semibold">Categorias de Serviço</h2>
+                <h2 className="text-2xl font-semibold">
+                  Categorias de Serviço
+                </h2>
                 <button
                   className="flex items-center justify-center w-8 h-8 bg-primary text-white font-bold rounded-full hover:bg-secondary transition"
                   onClick={() => handleAdd("categoria")}
@@ -148,44 +154,50 @@ const ListService: React.FC = () => {
                   +
                 </button>
               </div>
-              <table className="table-auto w-full border-collapse border border-gray-200">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className="border p-2"></th>
-                    <th className="border p-2 cursor-pointer">Categoria</th>
-                    <th className="border p-2">Tipo de Pet</th>
-                    <th className="border p-2">Peso Mínimo</th>
-                    <th className="border p-2">Peso Máximo</th>
-                    <th className="border p-2">Preço</th>
-                    <th className="border p-2">Duração</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {services.map((service) => (
-                    <tr key={service.id} className="hover:bg-gray-50">
-                      <td
-                        className="border p-4 cursor-pointer items-center"
-                        onClick={() => handleRemove(service.id, "servico")}
-                      >
-                        <FaTrashAlt />
-                      </td>
-                      <td
-                        className="border p-2 cursor-pointer"
-                        onClick={() => handleEdit(service.id, "servico")}
-                      >
-                        {service.category.title}
-                      </td>
-                      <td className="border p-2">
-                        {service.petType === "cao" ? "Cão" : "Gato"}
-                      </td>
-                      <td className="border p-2">{service.minWeight}</td>
-                      <td className="border p-2">{service.maxWeight}</td>
-                      <td className="border p-2">{`€${service.price}`}</td>
-                      <td className="border p-2">{`${service.duration} min`}</td>
+              {categories.length === 0 ? (
+                <p className="text-center text-gray-500 text-lg">
+                  Não existem serviços cadastrados.
+                </p>
+              ) : (
+                <table className="table-auto w-full border-collapse border border-gray-200">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="border p-2"></th>
+                      <th className="border p-2 cursor-pointer">Categoria</th>
+                      <th className="border p-2">Tipo de Pet</th>
+                      <th className="border p-2">Peso Mínimo</th>
+                      <th className="border p-2">Peso Máximo</th>
+                      <th className="border p-2">Preço</th>
+                      <th className="border p-2">Duração</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {services.map((service) => (
+                      <tr key={service.id} className="hover:bg-gray-50">
+                        <td
+                          className="border p-4 cursor-pointer items-center"
+                          onClick={() => handleRemove(service.id, "servico")}
+                        >
+                          <FaTrashAlt />
+                        </td>
+                        <td
+                          className="border p-2 cursor-pointer"
+                          onClick={() => handleEdit(service.id, "servico")}
+                        >
+                          {service.category.title}
+                        </td>
+                        <td className="border p-2">
+                          {service.petType === "cao" ? "Cão" : "Gato"}
+                        </td>
+                        <td className="border p-2">{service.minWeight}</td>
+                        <td className="border p-2">{service.maxWeight}</td>
+                        <td className="border p-2">{`€${service.price}`}</td>
+                        <td className="border p-2">{`${service.duration} min`}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </>
           )}
         </div>

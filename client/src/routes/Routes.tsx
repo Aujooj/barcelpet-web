@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import {
   AboutUs,
+  AddAppointment,
   AliveAnimals,
   AliveFormPage,
   AliveType,
@@ -26,9 +27,11 @@ import {
   ListServices,
   ServiceCategoryFormPage,
   ServiceFormPage,
+  AppointmentArchive,
 } from "../views/AllViews";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import AppointmentDashboard from "../views/AppointmentDashboard";
+import AdminOnly from "../views/AdminOnly";
 
 export const router = createBrowserRouter([
   {
@@ -72,57 +75,57 @@ export const router = createBrowserRouter([
           {
             path: "alimentacao",
             element: (
-              <ProtectedRoute>
+              <AdminOnly>
                 <ListProduct />
-              </ProtectedRoute>
+              </AdminOnly>
             ),
           },
           {
             path: "alimentacao/:id",
             element: (
-              <ProtectedRoute>
+              <AdminOnly>
                 <FoodFormPage />
-              </ProtectedRoute>
+              </AdminOnly>
             ),
           },
           {
             path: "vivos",
             element: (
-              <ProtectedRoute>
+              <AdminOnly>
                 <ListAlive />
-              </ProtectedRoute>
+              </AdminOnly>
             ),
           },
           {
             path: "vivos/:id",
             element: (
-              <ProtectedRoute>
+              <AdminOnly>
                 <AliveFormPage />
-              </ProtectedRoute>
+              </AdminOnly>
             ),
           },
           {
             path: "servicos",
             element: (
-              <ProtectedRoute>
+              <AdminOnly>
                 <ListServices />
-              </ProtectedRoute>
+              </AdminOnly>
             ),
           },
           {
             path: "servicos/:id",
             element: (
-              <ProtectedRoute>
+              <AdminOnly>
                 <ServiceFormPage />
-              </ProtectedRoute>
+              </AdminOnly>
             ),
           },
           {
             path: "servicoscategoria/:id",
             element: (
-              <ProtectedRoute>
+              <AdminOnly>
                 <ServiceCategoryFormPage />
-              </ProtectedRoute>
+              </AdminOnly>
             ),
           },
           {
@@ -130,6 +133,22 @@ export const router = createBrowserRouter([
             element: (
               <ProtectedRoute>
                 <AppointmentDashboard />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "marcacoes/adicionar",
+            element: (
+              <ProtectedRoute>
+                <AddAppointment />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "marcacoes/arquivo",
+            element: (
+              <ProtectedRoute>
+                <AppointmentArchive />
               </ProtectedRoute>
             ),
           },

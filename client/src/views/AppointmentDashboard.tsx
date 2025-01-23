@@ -1,289 +1,204 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { useAuth } from "../context/AuthContext";
-import Service from "../interfaces/Service";
-import User from "../interfaces/User";
+import React, { useEffect, useState } from "react";
+import Navbar from "../components/Navbar.tsx";
+import Loading from "../components/Loading.tsx";
+import Appointment from "../interfaces/Appointment.ts";
+import { useAuth } from "../context/AuthContext.tsx";
+import { FcCancel } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
+import { FaBoxArchive } from "react-icons/fa6";
 
-const AppointmentDashboard: React.FC = () => {
+const AppointmentsDashboard: React.FC = () => {
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const { user } = useAuth();
-  const [services, setServices] = useState<Service[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string>(""); // Only time
-  const [petType, setPetType] = useState<string>("");
-  const [serviceOptions, setServiceOptions] = useState<Service[]>([]);
-  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
-  const [selectedUser, setSelectedUser] = useState<number | null>(
-    user?.id || null
-  );
-  const [comment, setComment] = useState<string>("");
+  const navigate = useNavigate();
 
-  // Fetch services and users (admin role)
-  useEffect(() => {
-    fetch("http://localhost:3000/info/services")
-      .then((response) => response.json())
-      .then((data) => setServices(data))
-      .catch((error) => console.error("Error fetching services:", error));
+  const statusOptions = ["Pendente", "Confirmado", "Finalizado", "Cancelado"];
 
-    if (user?.role === "admin") {
-      fetch("http://localhost:3000/info/users/user")
-        .then((response) => response.json())
-        .then((data) => setUsers(data))
-        .catch((error) => console.error("Error fetching users:", error));
-    }
-  }, [user]);
-
-  // Filter services by petType
-  useEffect(() => {
-    if (petType) {
-      const filteredServices = services.filter(
-        (service) => service.petType === petType
-      );
-      setServiceOptions(filteredServices);
-    } else {
-      setServiceOptions([]);
-    }
-  }, [petType, services]);
-
-  // Generate time slots based on the selected date
-  const generateTimeSlots = () => {
-    const slots: string[] = [];
-    let start = new Date(selectedDate || new Date());
-    let end = new Date(selectedDate || new Date());
-
-    if (selectedDate?.getDay() === 3) {
-      start.setHours(14, 0, 0, 0); // Wednesday-specific start time
-    } else {
-      start.setHours(9, 30, 0, 0); // Default start time
-    }
-
-    end.setHours(19, 30, 0, 0); // End time
-
-    while (start < end) {
-      slots.push(start.toTimeString().slice(0, 5)); // Push HH:mm formatted time
-      start = new Date(start.getTime() + 30 * 60000); // Increment by 30 minutes
-    }
-    return slots;
-  };
-
-  // Fetch available times based on the selected date and petType
-  useEffect(() => {
-    if (selectedDate) {
-      const slots = generateTimeSlots();
-  
-      fetch(
-        `http://localhost:3000/api/appointments?date=${selectedDate.toISOString()}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          // Ensure we handle the availableTimes correctly
-          const appointments = Array.isArray(data.availableTimes)
-            ? data.availableTimes
-            : [];
-  
-          // If availableTimes is empty, set all generated slots as available times
-          const updatedSlots = slots.filter((slot) => {
-            const slotTime = new Date(
-              `${selectedDate.toISOString().split("T")[0]}T${slot}:00`
-            );
-  
-            // Check if any slot is occupied by an appointment
-            const isOccupied = appointments.some((appointmentTime) => {
-              const appointmentStart = new Date(
-                `${selectedDate.toISOString().split("T")[0]}T${appointmentTime}:00`
-              );
-              const appointmentEnd = new Date(
-                appointmentStart.getTime() + 30 * 60000 // Assume each appointment lasts 30 minutes
-              );
-  
-              return slotTime >= appointmentStart && slotTime < appointmentEnd;
-            });
-  
-            return isOccupied;
-          });
-  
-          setAvailableTimes(updatedSlots);
-          setSelectedTime(""); // Reset selected time when available times change
-        })
-        .catch((error) => {
-          console.log(error);
-          setAvailableTimes([]); // In case of error, clear available times
-        });
-    }
-  }, [selectedDate]);
-  
-
-  const handleSubmit = async () => {
-    if (!selectedDate || !selectedTime || !petType || !selectedUser) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-
+  const handleCancel = async (id: number, status: string) => {
     try {
-      const selectedService = serviceOptions.find(
-        (s) => s.id === parseInt(selectedTime)
+      if (status !== "Pendente") {
+        throw new Error(
+          `A marcação já foi ${status}. Não é possível cancelá-la!!`
+        );
+      }
+      const response = await fetch(
+        `http://localhost:3000/api/cancel/appointment`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
+        }
       );
-
-      if (!selectedService) {
-        alert("Invalid service selected.");
-        return;
-      }
-
-      const appointmentData = {
-        petName: petType,
-        ownerId: selectedUser,
-        day: selectedDate,
-        timeStart: new Date(
-          `${selectedDate.toISOString().split("T")[0]}T${selectedTime}`
-        ),
-        serviceId: selectedService.id,
-        comment,
-      };
-
-      const response = await fetch("/api/appointments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(appointmentData),
-      });
-
+      const data = await response.json();
       if (!response.ok) {
-        throw new Error("Failed to create appointment");
+        alert(data.message || "Erro ao atualizar status");
+      } else {
+        window.location.reload();
       }
-
-      alert("Appointment successfully created!");
-    } catch (error) {
-      console.error("Error creating appointment:", error);
-      alert("Failed to create appointment.");
+    } catch (e) {
+      alert(`Erro: ${e}`);
     }
   };
+
+  const handleStatusChange = async (appointmentId: number, status: string) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/appointment/${appointmentId}/status`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setAppointments(
+          appointments.map((appointment) =>
+            appointment.id === appointmentId
+              ? { ...appointment, status: status }
+              : appointment
+          )
+        );
+      } else {
+        alert(data.message || "Erro ao atualizar status");
+      }
+    } catch (e) {
+      alert(`Erro: ${e}`);
+    }
+  };
+  const today = new Date();
+  const filteredAppointments = appointments.filter((appointment) => {
+    const appointmentDate = new Date(appointment.day);
+    return appointmentDate >= today;
+  });
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(
+      user?.role === "admin"
+        ? "http://localhost:3000/api/list/appointments"
+        : `http://localhost:3000/api/list/appointments/${user?.id}`
+    )
+      .then((res) => res.json())
+      .then((data) => setAppointments(data));
+
+    setLoading(false);
+  }, [user]);
 
   return (
     <>
       <Navbar />
       <div className="min-h-screen ml-64 flex flex-col bg-gray-100">
+        <div className="absolute top-14 right-10">
+          <button
+            className="flex items-center space-x-2 text-primary hover:text-secondary transition p-2 rounded-lg"
+            onClick={() => navigate("/dashboard/marcacoes/arquivo")}
+          >
+            <FaBoxArchive size={24} />
+          </button>
+        </div>
         <div className="overflow-x-auto mx-6 p-8 bg-white shadow-lg rounded-lg my-10">
           <h1 className="text-4xl font-bold text-center mb-10">
-            Set Appointment
+            Próximas Marcações
           </h1>
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium">Date</label>
-              <DatePicker
-                selected={selectedDate}
-                onChange={(date) => setSelectedDate(date)}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                dateFormat="yyyy-MM-dd"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium">Pet Type</label>
-              <select
-                value={petType}
-                onChange={(e) => setPetType(e.target.value)}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-              >
-                <option value="" disabled>
-                  Select a pet type
-                </option>
-                {[...new Set(services.map((service) => service.petType))].map(
-                  (type) => (
-                    <option key={type} value={type}>
-                      {type === "cao" ? "Cão" : "Gato"}
-                    </option>
-                  )
-                )}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium">Service</label>
-              <select
-                value={selectedTime}
-                onChange={(e) => setSelectedTime(e.target.value)}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-              >
-                <option value="">Select a service</option>
-                {serviceOptions.map((service) => (
-                  <option key={service.id} value={service.id}>
-                    {petType === "gato"
-                      ? `${service.category.title} - ${service.duration} minutes`
-                      : `${service.category.title} ${
-                          service.maxWeight !== 1000
-                            ? `até ${service.maxWeight}`
-                            : `+${service.minWeight}`
-                        } Kg - ${service.duration} minutes`}
-                  </option>
+          <button
+            className="self-center mb-6 px-4 py-2 bg-primary text-white rounded hover:bg-secondary transition"
+            onClick={()=> navigate("adicionar")}
+          >
+            Adicionar
+          </button>
+          {loading ? (
+            <Loading />
+          ) : filteredAppointments.length === 0 ? (
+            <p className="text-center text-gray-500 text-lg">
+              Não existem marcações neste momento.
+            </p>
+          ) : (
+            <table className="table-auto w-full border-collapse border border-gray-200">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border p-2">#</th>
+                  <th className="border p-2">Pet</th>
+                  <th className="border p-2">Serviço</th>
+                  <th className="border p-2">Preço</th>
+                  <th className="border p-2">Data</th>
+                  <th className="border p-2">Hora</th>
+                  <th className="border p-2">Status</th>
+                  {user?.role === "admin" ? (
+                    ""
+                  ) : (
+                    <th className="border p-2"></th>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredAppointments.map((appointment) => (
+                  <tr key={appointment.id} className="hover:bg-gray-50">
+                    <td className="border p-2 text-center">{appointment.id}</td>
+                    <td className="border p-2">{appointment.petName}</td>
+                    <td className="border p-2">
+                      {appointment.service.category.title}
+                    </td>
+                    <td className="border p-2">
+                      €{appointment.service.price.toFixed(2)}
+                    </td>
+                    <td className="border p-2">
+                      {new Date(appointment.day).toLocaleDateString("pt-PT")}
+                    </td>
+                    <td className="border p-2">
+                      {new Date(appointment.timeStart).toLocaleTimeString(
+                        "pt-PT",
+                        {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
+                    </td>
+                    <td className="border p-2">
+                      {user?.role === "admin" ? (
+                        <select
+                          value={appointment.status}
+                          onChange={(e) =>
+                            handleStatusChange(appointment.id, e.target.value)
+                          }
+                          className="border p-1 rounded w-full"
+                        >
+                          {statusOptions.map((status) => (
+                            <option key={status} value={status}>
+                              {status}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <span>{appointment.status}</span>
+                      )}
+                    </td>
+                    {user?.role === "admin" ? (
+                      ""
+                    ) : (
+                      <td
+                        className="border p-2 cursor-pointer items-center"
+                        onClick={() =>
+                          handleCancel(appointment.id, appointment.status)
+                        }
+                      >
+                        <FcCancel />
+                      </td>
+                    )}
+                  </tr>
                 ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium">
-                Available Time
-              </label>
-              <select
-                value={selectedTime}
-                onChange={(e) => setSelectedTime(e.target.value)}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-              >
-                <option value="">Select a time</option>
-                {availableTimes.length === 0 ? (
-                  <option disabled>No available times</option>
-                ) : (
-                  availableTimes.map((time) => (
-                    <option key={time} value={time}>
-                      {time}
-                    </option>
-                  ))
-                )}
-              </select>
-            </div>
-
-            {user?.role === "admin" && (
-              <div>
-                <label className="block text-sm font-medium">User</label>
-                <select
-                  value={selectedUser || ""}
-                  onChange={(e) => setSelectedUser(Number(e.target.value))}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                >
-                  <option value="" disabled>
-                    Select a user
-                  </option>
-                  {users.map((u) => (
-                    <option key={u.id} value={u.id}>
-                      {u.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-            <div>
-              <label className="block text-sm font-medium">Comment</label>
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-              />
-            </div>
-
-            <button
-              onClick={handleSubmit}
-              className="w-full bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition"
-            >
-              Create Appointment
-            </button>
-          </div>
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </>
   );
 };
 
-export default AppointmentDashboard;
+export default AppointmentsDashboard;

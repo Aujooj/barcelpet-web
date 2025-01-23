@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar.tsx";
-import Product from "../interfaces/Product.tsx";
+import Product from "../interfaces/Product.ts";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
 const FoodFormPage: React.FC = () => {

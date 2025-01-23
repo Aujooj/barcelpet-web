@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar.tsx";
 import { FaSortDown, FaSortUp, FaTrashAlt } from "react-icons/fa";
-import Product from "../interfaces/Product.tsx";
+import Product from "../interfaces/Product.ts";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading.tsx";
 
@@ -104,6 +104,10 @@ const ListProduct: React.FC = () => {
           </button>
           {loading ? (
             <Loading />
+          ) : sortedFoods.length === 0 ? (
+            <p className="text-center text-gray-500 text-lg">
+              Não existem produtos neste momento.
+            </p>
           ) : (
             <table className="table-auto w-full border-collapse border border-gray-200">
               <thead>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar.tsx";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import ServiceCategory from "../interfaces/ServiceCategory.tsx";
+import ServiceCategory from "../interfaces/ServiceCategory.ts";
 
 const ServiceCategoryFormPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

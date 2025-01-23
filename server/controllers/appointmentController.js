@@ -1,3 +1,12 @@
+import {
+  cancelAppointmentbyId,
+  createAppointmentAsync,
+  findAvailableTimes,
+  getAllAppointmentsAsync,
+  listAppointmentByUserId,
+  updateAppointmentStatusAsync,
+} from "../models/appointmentModel.js";
+
 import prisma from "../prisma/prisma.js";
 
 export async function getAvailableTimes(req, res) {
@@ -5,42 +14,20 @@ export async function getAvailableTimes(req, res) {
 
   try {
     const selectedDate = new Date(date);
-
     const startOfDay = new Date(selectedDate.setHours(0, 0, 0, 0));
     const endOfDay = new Date(selectedDate.setHours(19, 30, 0, 0));
 
-    // Fetch all appointments for the given date
-    const appointments = await prisma.appointment.findMany({
-      where: {
-        timeStart: {
-          gte: startOfDay,
-          lte: endOfDay,
-        },
-        status: {
-          not: "Canceled", // Exclude canceled appointments
-        },
-      },
-      include: {
-        service: {
-          select: {
-            duration: true,
-            petType: true,
-          },
-        },
-      },
-    });
+    const appointments = await findAvailableTimes(startOfDay, endOfDay);
 
-    // Generate all possible time slots for the selected date (from 9:30 to 19:00)
     const timeSlots = [];
     let currentTime = new Date(startOfDay);
-    currentTime.setHours(9, 30, 0, 0); // Start time of the day
+    currentTime.setHours(9, 30, 0, 0);
 
     while (currentTime <= endOfDay) {
-      timeSlots.push(currentTime.toTimeString().slice(0, 5)); // Format as "HH:mm"
-      currentTime = new Date(currentTime.getTime() + 30 * 60000); // Increment by 30 minutes
+      timeSlots.push(currentTime.toTimeString().slice(0, 5));
+      currentTime = new Date(currentTime.getTime() + 30 * 60000);
     }
 
-    // Check for conflicts between available slots and existing appointments
     const availableTimes = timeSlots.filter((slot) => {
       const slotTime = new Date(
         `${selectedDate.toISOString().split("T")[0]}T${slot}:00`
@@ -55,10 +42,74 @@ export async function getAvailableTimes(req, res) {
       });
     });
 
-    // Return available times in the response
     res.status(200).json({ availableTimes });
   } catch (error) {
     console.log("Error fetching appointments:", error);
     res.status(500).json({ erro: "Internal server error" });
+  }
+}
+
+export async function createAppointment(data, req, res) {
+  const { petName, ownerId, day, timeStart, serviceId, comment } = data;
+  const appointment = await createAppointmentAsync(
+    petName,
+    parseInt(ownerId),
+    day,
+    timeStart,
+    parseInt(serviceId),
+    comment
+  );
+  res.status(201).json(appointment);
+}
+
+export const getAllAppointments = async (req, res) => {
+  try {
+    const appointments = await getAllAppointmentsAsync();
+
+    res.status(200).json(appointments);
+  } catch (error) {
+    console.error("Error fetching all appointments:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getAppointmentsByUser = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const appointments = await listAppointmentByUserId(userId);
+
+    if (appointments.length === 0) {
+      return res.status(404).json({ message: "No appointments found" });
+    }
+
+    res.status(200).json(appointments);
+  } catch (error) {
+    console.error("Error fetching user appointments:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export async function cancelAppointment(req, res) {
+  const { id } = req.body;
+  const appointmentId = parseInt(id);
+
+  try {
+    const appointment = await cancelAppointmentbyId(appointmentId);
+    res.status(200).json(appointment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Pedido não pode ser cancelado" });
+  }
+}
+
+export async function updateAppointmentStatus(req, res) {
+  const { id } = req.params;
+  const { status } = req.body;
+  try {
+    const updatedAppointment = await updateAppointmentStatusAsync(id, status);
+    res.status(200).json(updatedAppointment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating appointment status" });
   }
 }

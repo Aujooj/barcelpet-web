@@ -77,7 +77,7 @@ const Services: React.FC = () => {
               Entre em contato conosco para agendar um serviço personalizado.
             </p>
             <Link
-              to="/dashboard/servicos"
+              to="/dashboard/marcacoes"
               className="bg-white text-primary px-6 py-3 rounded-md hover:bg-gray-100 transition"
             >
               Agende agora

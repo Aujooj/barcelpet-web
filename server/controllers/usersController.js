@@ -9,9 +9,9 @@ import bcrypt from "bcryptjs";
 
 export async function register(req, res) {
   try {
-    const { name, surname, email, password } = req.body;
+    const { name, surname, phone, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    await createUser(name + " " + surname, email, hashedPassword);
+    await createUser(name + " " + surname, phone, email, hashedPassword);
     res.status(201).json({
       message: "Utilizador registrado com sucesso!",
     });

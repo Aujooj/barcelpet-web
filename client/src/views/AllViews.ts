@@ -1,17 +1,19 @@
 import AboutUs from "./AboutUs";
-import AddApointment from "./AddAppointment";
-import ApointmentDashboard from "./AppointmentDashboard";
-import AliveAnimals from "../views/AliveAnimal";
+import AddAppointment from "./AddAppointment";
+import RequireAdmin from "./AdminOnly";
+import AppointmentArchive from "./AppointmentArchive";
+import AppointmentDashboard from "./AppointmentDashboard";
+import AliveAnimals from "./AliveAnimal";
 import AliveFormPage from "./AliveFormPage";
 import AliveType from "./AliveType";
-import AuthPage from "../views/AuthPage";
+import AuthPage from "./AuthPage";
 import App from "../App";
 import BrandDetails from "./BrandDetails";
 import CartPage from "./CartPage";
 import Checkout from "./Checkout";
 import Dashboard from "./Dashboard";
 import FoodBrand from "./FoodBrand";
-import FoodDetails from "../views/FoodDetails";
+import FoodDetails from "./FoodDetails";
 import FoodFormPage from "./FoodFormPage";
 import FoodType from "./FoodType";
 import Home from "./Home";
@@ -29,11 +31,13 @@ import UserFormPage from "./UserFormPage";
 
 export {
   AboutUs,
-  AddApointment,
+  AddAppointment,
+  RequireAdmin,
   AliveAnimals,
   AliveFormPage,
   AliveType,
-  ApointmentDashboard,
+  AppointmentArchive,
+  AppointmentDashboard,
   AuthPage,
   App,
   BrandDetails,

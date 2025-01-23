@@ -8,6 +8,13 @@ export async function getUserByEmail(email) {
   return user;
 }
 
+export async function getUserById(id) {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+  return user;
+}
+
 export async function getAllUsersByRoleUser() {
   const users = await prisma.user.findMany({
     where: { role: "user" },
@@ -24,12 +31,13 @@ export function generateToken(user) {
   return jwt.encode(payload, process.env.TOKEN_KEY);
 }
 
-export async function createUser(name, email, password) {
+export async function createUser(name, phone, email, password) {
   try {
     const user = await prisma.user.create({
       data: {
         name,
         email,
+        phone,
         password,
         role: "user",
       },

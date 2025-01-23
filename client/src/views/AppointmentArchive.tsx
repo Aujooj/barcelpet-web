@@ -1,43 +1,34 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar.tsx";
 import Loading from "../components/Loading.tsx";
-import Order from "../interfaces/Order.ts";
+import Appointment from "../interfaces/Appointment.ts";
 import { useAuth } from "../context/AuthContext.tsx";
 import { FcCancel } from "react-icons/fc";
 
-const OrdersDashboard: React.FC = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+const AppointmentArchive: React.FC = () => {
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { user } = useAuth();
 
-  const statusOptions = [
-    "Pendente",
-    "Confirmado",
-    "Enviado",
-    "Finalizado",
-    "Cancelado",
-  ];
-
-  const calculateTotal = (order: Order) => {
-    return order.orderItems.reduce((total, item) => {
-      return total + item.product?.price * item.quantity;
-    }, 0);
-  };
+  const statusOptions = ["Pendente", "Confirmado", "Finalizado", "Cancelado"];
 
   const handleCancel = async (id: number, status: string) => {
     try {
       if (status !== "Pendente") {
         throw new Error(
-          `O pedido já foi ${status}. Não é possível cancelá-lo!!`
+          `A marcação já foi ${status}. Não é possível cancelá-la!!`
         );
       }
-      const response = await fetch(`http://localhost:3000/api/cancel/order`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/cancel/appointment`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
+        }
+      );
       const data = await response.json();
       if (!response.ok) {
         alert(data.message || "Erro ao atualizar status");
@@ -49,10 +40,10 @@ const OrdersDashboard: React.FC = () => {
     }
   };
 
-  const handleStatusChange = async (orderId: number, status: string) => {
+  const handleStatusChange = async (appointmentId: number, status: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/order/${orderId}/status`,
+        `http://localhost:3000/api/appointment/${appointmentId}/status`,
         {
           method: "PUT",
           headers: {
@@ -63,9 +54,11 @@ const OrdersDashboard: React.FC = () => {
       );
       const data = await response.json();
       if (response.ok) {
-        setOrders(
-          orders.map((order) =>
-            order.id === orderId ? { ...order, status: status } : order
+        setAppointments(
+          appointments.map((appointment) =>
+            appointment.id === appointmentId
+              ? { ...appointment, status: status }
+              : appointment
           )
         );
       } else {
@@ -80,37 +73,39 @@ const OrdersDashboard: React.FC = () => {
     setLoading(true);
     fetch(
       user?.role === "admin"
-        ? "http://localhost:3000/api/orders"
-        : `http://localhost:3000/api/orders/${user?.id}`
+        ? "http://localhost:3000/api/list/appointments"
+        : `http://localhost:3000/api/list/appointments/${user?.id}`
     )
       .then((res) => res.json())
-      .then((data) => setOrders(data));
+      .then((data) => setAppointments(data));
 
     setLoading(false);
-  }, []);
+  }, [user]);
 
   return (
     <>
       <Navbar />
       <div className="min-h-screen ml-64 flex flex-col bg-gray-100">
         <div className="overflow-x-auto mx-6 p-8 bg-white shadow-lg rounded-lg my-10">
-          <h1 className="text-4xl font-bold text-center mb-10">Pedidos</h1>
+          <h1 className="text-4xl font-bold text-center mb-10">
+            Todas as Marcações
+          </h1>
           {loading ? (
             <Loading />
-          ) : orders.length === 0 ? (
+          ) : appointments.length === 0 ? (
             <p className="text-center text-gray-500 text-lg">
-              Não existem pedidos neste momento.
+              Não existem marcações neste momento.
             </p>
           ) : (
             <table className="table-auto w-full border-collapse border border-gray-200">
               <thead>
                 <tr className="bg-gray-100">
                   <th className="border p-2">#</th>
-                  <th className="border p-2">Produtos</th>
-                  <th className="border p-2">Telefone</th>
-                  <th className="border p-2">Morada</th>
-                  <th className="border p-2">Entrega</th>
-                  <th className="border p-2">Total</th>
+                  <th className="border p-2">Pet</th>
+                  <th className="border p-2">Serviço</th>
+                  <th className="border p-2">Preço</th>
+                  <th className="border p-2">Data</th>
+                  <th className="border p-2">Hora</th>
                   <th className="border p-2">Status</th>
                   {user?.role === "admin" ? (
                     ""
@@ -120,40 +115,36 @@ const OrdersDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-50">
-                    <td className="border p-2 text-center">
-                      {order.orderNumber}
+                {appointments.map((appointment) => (
+                  <tr key={appointment.id} className="hover:bg-gray-50">
+                    <td className="border p-2 text-center">{appointment.id}</td>
+                    <td className="border p-2">{appointment.petName}</td>
+                    <td className="border p-2">
+                      {appointment.service.category.title}
                     </td>
                     <td className="border p-2">
-                      <ul>
-                        {order.orderItems.map((item) => (
-                          <li key={item.id}>
-                            {item.product?.name} x{item.quantity}
-                          </li>
-                        ))}
-                      </ul>
+                      €{appointment.service.price.toFixed(2)}
                     </td>
-                    <td className="border p-2">{order.phone}</td>
                     <td className="border p-2">
-                      {order.deliveryOption === "delivery"
-                        ? "Receber em casa"
-                        : order.deliveryOption === "pickup"
-                        ? "Levantar"
-                        : ""}
+                      {new Date(appointment.day).toLocaleDateString("pt-PT")}
                     </td>
-                    <td className="border p-2">{order.address}</td>
                     <td className="border p-2">
-                      €{calculateTotal(order).toFixed(2)}
+                      {new Date(appointment.timeStart).toLocaleTimeString(
+                        "pt-PT",
+                        {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
                     </td>
                     <td className="border p-2">
                       {user?.role === "admin" ? (
                         <select
-                          value={order.status}
+                          value={appointment.status}
                           onChange={(e) =>
-                            handleStatusChange(order.id, e.target.value)
+                            handleStatusChange(appointment.id, e.target.value)
                           }
-                          className="border p-1 rounded"
+                          className="border p-1 rounded w-full"
                         >
                           {statusOptions.map((status) => (
                             <option key={status} value={status}>
@@ -162,7 +153,7 @@ const OrdersDashboard: React.FC = () => {
                           ))}
                         </select>
                       ) : (
-                        <span>{order.status}</span>
+                        <span>{appointment.status}</span>
                       )}
                     </td>
                     {user?.role === "admin" ? (
@@ -170,7 +161,9 @@ const OrdersDashboard: React.FC = () => {
                     ) : (
                       <td
                         className="border p-2 cursor-pointer items-center"
-                        onClick={() => handleCancel(order.id, order.status)}
+                        onClick={() =>
+                          handleCancel(appointment.id, appointment.status)
+                        }
                       >
                         <FcCancel />
                       </td>
@@ -186,4 +179,4 @@ const OrdersDashboard: React.FC = () => {
   );
 };
 
-export default OrdersDashboard;
+export default AppointmentArchive;

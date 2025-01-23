@@ -34,7 +34,7 @@ const ListAlive: React.FC = () => {
     setSortConfig({ key, direction });
   };
 
-  const sortedFoods = React.useMemo(() => {
+  const sortedAnimals = React.useMemo(() => {
     if (!sortConfig) return animals;
     return [...animals].sort((a, b) => {
       const aValue = a[sortConfig.key];
@@ -104,6 +104,10 @@ const ListAlive: React.FC = () => {
           </button>
           {loading ? (
             <Loading />
+          ) : sortedAnimals.length === 0 ? (
+            <p className="text-center text-gray-500 text-lg">
+              Não existem animais cadastrados.
+            </p>
           ) : (
             <table className="table-auto w-full border-collapse border border-gray-200">
               <thead>
@@ -125,7 +129,7 @@ const ListAlive: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {sortedFoods.map((product) => (
+                {sortedAnimals.map((product) => (
                   <tr key={product.id} className="hover:bg-gray-50">
                     <td
                       className="border p-4 cursor-pointer"

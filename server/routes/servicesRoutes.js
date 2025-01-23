@@ -37,7 +37,6 @@ const routes = (app) => {
   app.use(express.json());
   app.use(cors(corsOptions));
 
-  // Services
   app.get("/info/services", listAllServices);
   app.get("/info/services/:id", (req, res) => {
     const id = parseInt(req.params.id);
@@ -59,7 +58,6 @@ const routes = (app) => {
     removeService(service, req, res);
   });
 
-  //Categories
   app.post("/serviceCategory/upload", upload.single("image"), (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });

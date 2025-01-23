@@ -9,6 +9,7 @@ const AuthPage: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
+    phone:"",
     email: "",
     password: "",
   });
@@ -28,7 +29,7 @@ const AuthPage: React.FC = () => {
     setIsRegister((prev) => !prev);
     setError(null);
     setSuccess(null);
-    setFormData({ name: "", surname: "", email: "", password: "" });
+    setFormData({ name: "", surname: "", phone:"", email: "", password: "" });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +73,7 @@ const AuthPage: React.FC = () => {
       }
       setError(null);
       setSuccess(data.message);
-      setFormData({ name: "", surname: "", email: "", password: "" });
+      setFormData({ name: "", surname: "", phone:"", email: "", password: "" });
     } catch (err: unknown) {
       if (err instanceof Error) {
         console.error("Error:", err.message);
@@ -94,10 +95,10 @@ const AuthPage: React.FC = () => {
         {success && (
           <p className="text-green-500 text-center mb-4">{success}</p>
         )}
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {isRegister && (
-            <div className="grid grid-cols-2 gap-4">
-              {["name", "surname"].map((field) => (
+            <div className="grid grid-cols-1 gap-4">
+              {["name", "surname", "phone"].map((field) => (
                 <div key={field} className="relative">
                   <input
                     type="text"
@@ -108,7 +109,7 @@ const AuthPage: React.FC = () => {
                     className="peer w-full px-4 pt-6 pb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   <label className="absolute left-4 top-2 text-gray-500 text-sm transition-all">
-                    {field === "name" ? "Nome" : "Apelido"}
+                    {field === "name" ? "Nome" : field === "surname" ? "Apelido" : "Telefone"}
                   </label>
                 </div>
               ))}

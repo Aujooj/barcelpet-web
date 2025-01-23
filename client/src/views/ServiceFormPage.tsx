@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar.tsx";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import Service from "../interfaces/Service.tsx";
-import ServiceCategory from "../interfaces/ServiceCategory.tsx";
+import Service from "../interfaces/Service.ts";
+import ServiceCategory from "../interfaces/ServiceCategory.ts";
 
 const ServiceFormPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,13 +22,11 @@ const ServiceFormPage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch available categories
     fetch("http://localhost:3000/info/serviceCategories")
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((err) => console.error("Failed to fetch categories:", err));
 
-    // Fetch service data if editing
     if (!isAdd) {
       fetch(`http://localhost:3000/info/services/${id}`)
         .then((res) => res.json())

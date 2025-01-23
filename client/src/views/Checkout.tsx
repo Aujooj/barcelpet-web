@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
@@ -27,6 +27,12 @@ const Checkout: React.FC = () => {
     formData.deliveryOption === "delivery"
       ? totalAmount + DELIVERY_FEE
       : totalAmount;
+
+      useEffect(() => {
+        if (cart.items.length === 0) {
+          navigate("/dashboard");
+        }
+      }, [cart.items.length, navigate]);
 
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

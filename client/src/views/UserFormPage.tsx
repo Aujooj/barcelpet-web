@@ -8,7 +8,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 const UserFormPage: React.FC = () => {
   const { user, setUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // For toggling visibility of confirm password
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     id: 0,
@@ -59,13 +59,11 @@ const UserFormPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
       setError("As senhas não coincidem.");
       return;
     }
 
-    // Validate password
     if (!validatePassword(formData.password)) {
       setError(
         "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial."
@@ -130,13 +128,14 @@ const UserFormPage: React.FC = () => {
               onChange={handleChange}
               className="p-2 border border-gray-300 rounded"
             />
-            <label>Telefone</label>
+            <label>Telefone*</label>
             <input
               type="text"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
               className="p-2 border border-gray-300 rounded"
+              required
             />
             <div className="relative">
               <label htmlFor="password">Palavra-passe*</label>
@@ -207,7 +206,6 @@ const UserFormPage: React.FC = () => {
               className="p-2 border border-gray-300 rounded"
             />
             <p>(*) Campos Obrigatórios</p>
-            <p>{formData.role}</p>
           </form>
         </div>
       </div>

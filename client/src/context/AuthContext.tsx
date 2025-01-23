@@ -1,24 +1,15 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import AuthContextType from "../interfaces/AuthContextType";
 import User from "../interfaces/User";
-import * as CryptoJS from "crypto-js";
+import CryptoJS from "crypto-js";
+import ProviderProps from "../interfaces/AuthProviderProps";
 
 const ENCRYPTION_KEY =
   "emfi*pbvY93c$aQMQBAMs@uS8#KjdFx#jNYk#euvSTSrgXW$A8B3j7%E6Q3^AnQ^w!*qTMA5fq%nbQ3HA4&EKLA^FPCfyjY@Mtx6";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<ProviderProps> = ({ children }) => {
   const [token, setTokenState] = useState<string | null>(null);
   const [user, setUserState] = useState<User | null>(null);
 
@@ -30,7 +21,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (encryptedUser) {
       try {
         const bytes = CryptoJS.AES.decrypt(encryptedUser, ENCRYPTION_KEY);
-        const decryptedUser = JSON.parse(bytes.toString(CryptoJS.enc.Utf8)) as User;
+        const decryptedUser = JSON.parse(
+          bytes.toString(CryptoJS.enc.Utf8)
+        ) as User;
         setUserState(decryptedUser);
       } catch (e) {
         console.error("Failed to decrypt user data", e);

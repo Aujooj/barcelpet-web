@@ -29,7 +29,7 @@ const Home: React.FC = () => {
           </p>
           <Link
             to="/dashboard"
-            className="btn bg-secondary text-white px-6 py-3 rounded-md hover:bg-secondary/90 transition"
+            className="btn bg-secondary text-white px-6 py-3 rounded-md hover:bg-primary transition"
           >
             Como podemos ajudar?
           </Link>

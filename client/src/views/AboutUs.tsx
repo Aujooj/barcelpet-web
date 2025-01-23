@@ -163,7 +163,7 @@ const AboutUs: React.FC = () => {
                 <img
                   src="/assets/employees/isabel.jpg"
                   alt="Isabel"
-                  className="mx-auto rounded-full w-32 h-32 object-cover"
+                  className="mx-auto rounded-full shadow-xl   w-32 h-32 object-cover"
                 />
                 <p className="mt-2">
                   <span className="block text-xl font-medium">
@@ -176,7 +176,7 @@ const AboutUs: React.FC = () => {
                 <img
                   src="/assets/employees/nuno.jpg"
                   alt="Nuno"
-                  className="mx-auto rounded-full w-32 h-32 object-cover"
+                  className="mx-auto rounded-full shadow-xl w-32 h-32 object-cover"
                 />
                 <p className="mt-2">
                   <span className="block text-xl font-medium">Nuno Faria</span>
@@ -187,7 +187,7 @@ const AboutUs: React.FC = () => {
                 <img
                   src="/assets/employees/teddy.jpg"
                   alt="Gato Teddy"
-                  className="mx-auto rounded-full w-32 h-32 object-cover"
+                  className="mx-auto rounded-full shadow-xl w-32 h-32 object-cover"
                 />
                 <p className="mt-2">
                   <span className="block text-xl font-medium">Teddy</span>
@@ -198,7 +198,7 @@ const AboutUs: React.FC = () => {
                 <img
                   src="/assets/employees/garfield.jpg"
                   alt="Gato Garfield"
-                  className="mx-auto rounded-full w-32 h-32 object-cover"
+                  className="mx-auto rounded-full shadow-xl w-32 h-32 object-cover"
                 />
                 <p className="mt-2">
                   <span className="block text-xl font-medium">Garfield</span>
@@ -225,7 +225,7 @@ const AboutUs: React.FC = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="item w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="item w-full px-4 py-2 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-primary"
                   autoComplete="off"
                 />
                 {errors.name && (
@@ -239,7 +239,7 @@ const AboutUs: React.FC = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="item w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="item w-full px-4 py-2 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-primary"
                   autoComplete="off"
                 />
                 {errors.email && (
@@ -255,7 +255,7 @@ const AboutUs: React.FC = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="item w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="item w-full px-4 py-2 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-primary"
                   autoComplete="off"
                   minLength={9}
                   maxLength={9}
@@ -273,7 +273,7 @@ const AboutUs: React.FC = () => {
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
-                  className="item w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="item w-full px-4 py-2 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-primary"
                   autoComplete="off"
                 />
                 {errors.subject && (
@@ -288,7 +288,7 @@ const AboutUs: React.FC = () => {
                   placeholder="Sua mensagem"
                   value={formData.message}
                   onChange={handleInputChange}
-                  className="item w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="item w-full px-4 py-2 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-primary"
                   rows={10}
                   autoComplete="off"
                 />
