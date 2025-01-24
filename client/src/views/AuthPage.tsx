@@ -76,7 +76,7 @@ const AuthPage: React.FC = () => {
       setFormData({ name: "", surname: "", phone:"", email: "", password: "" });
     } catch (err: unknown) {
       if (err instanceof Error) {
-        console.error("Error:", err.message);
+        console.error(err.message);
         setError(err.message || "An unexpected error occurred.");
       } else {
         console.error("Unknown error:", err);

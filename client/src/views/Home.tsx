@@ -28,7 +28,7 @@ const Home: React.FC = () => {
             AQUI SOMOS FAMÍLIA!
           </p>
           <Link
-            to="/dashboard"
+            to="/sobre"
             className="btn bg-secondary text-white px-6 py-3 rounded-md hover:bg-primary transition"
           >
             Como podemos ajudar?

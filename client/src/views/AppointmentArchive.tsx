@@ -102,6 +102,11 @@ const AppointmentArchive: React.FC = () => {
                 <tr className="bg-gray-100">
                   <th className="border p-2">#</th>
                   <th className="border p-2">Pet</th>
+                  {user?.role === "admin" ? (
+                    <th className="border p-2">Telefone</th>
+                  ) : (
+                    ""
+                  )}
                   <th className="border p-2">Serviço</th>
                   <th className="border p-2">Preço</th>
                   <th className="border p-2">Data</th>
@@ -119,6 +124,13 @@ const AppointmentArchive: React.FC = () => {
                   <tr key={appointment.id} className="hover:bg-gray-50">
                     <td className="border p-2 text-center">{appointment.id}</td>
                     <td className="border p-2">{appointment.petName}</td>
+                    {user?.role === "admin" ? (
+                      <td className="border p-2">
+                        {appointment.owner.phone.match(/.{1,3}/g)?.join(" ")}
+                      </td>
+                    ) : (
+                      ""
+                    )}
                     <td className="border p-2">
                       {appointment.service.category.title}
                     </td>

@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 const OrderSent: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const {cart, clearCart} = useCart();
 
   const orderTotal = location.state.orderTotal;
-
+  useEffect(() => {
+    if (cart.items.length !== 0) {
+      clearCart();
+    }
+  });
   const handleGoBack = () => {
     navigate("/dashboard");
   };
@@ -24,7 +30,11 @@ const OrderSent: React.FC = () => {
           <span className="font-semibold text-secondary">€{orderTotal}</span>{" "}
           através do MB WAY para o número abaixo:
         </p>
-        <img src="/assets/mbway.png" alt="MB WAY Logo" className="mx-auto w-32 mb-6" />
+        <img
+          src="/assets/mbway.png"
+          alt="MB WAY Logo"
+          className="mx-auto w-32 mb-6"
+        />
         <div className="bg-gray-200 p-4 rounded-md mb-6">
           <p className="text-lg text-secondary font-bold">910 522 448</p>
         </div>

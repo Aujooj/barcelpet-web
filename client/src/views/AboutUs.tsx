@@ -105,11 +105,11 @@ const AboutUs: React.FC = () => {
           });
         } else {
           const errorData = await response.json();
-          console.error("Error:", errorData);
+          console.error(errorData);
           alert("Failed to send email. Please try again.");
         }
       } catch (error) {
-        console.error("Error:", error);
+        console.error(error);
         alert("An unexpected error occurred. Please try again.");
       }
     }

@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 
 const Checkout: React.FC = () => {
-  const { cart, calculateTotalPrice, clearCart } = useCart();
+  const { cart, calculateTotalPrice } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -28,11 +28,11 @@ const Checkout: React.FC = () => {
       ? totalAmount + DELIVERY_FEE
       : totalAmount;
 
-      useEffect(() => {
-        if (cart.items.length === 0) {
-          navigate("/dashboard");
-        }
-      }, [cart.items.length, navigate]);
+  useEffect(() => {
+    if (cart.items.length === 0) {
+      navigate("/dashboard");
+    }
+  }, [cart.items.length, navigate]);
 
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -75,10 +75,7 @@ const Checkout: React.FC = () => {
       }
 
       const responseData = await response.json();
-      console.log("Order created:", responseData);
-
-      clearCart();
-
+      
       navigate("/dashboard/thank-you", {
         state: {
           orderTotal: totalWithDelivery.toFixed(2),

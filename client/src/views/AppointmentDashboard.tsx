@@ -108,7 +108,7 @@ const AppointmentsDashboard: React.FC = () => {
           </h1>
           <button
             className="self-center mb-6 px-4 py-2 bg-primary text-white rounded hover:bg-secondary transition"
-            onClick={()=> navigate("adicionar")}
+            onClick={() => navigate("adicionar")}
           >
             Adicionar
           </button>
@@ -124,15 +124,20 @@ const AppointmentsDashboard: React.FC = () => {
                 <tr className="bg-gray-100">
                   <th className="border p-2">#</th>
                   <th className="border p-2">Pet</th>
+                  {user?.role === "admin" ? (
+                    <th className="border p-2">Telefone</th>
+                  ) : (
+                    ""
+                  )}
                   <th className="border p-2">Serviço</th>
                   <th className="border p-2">Preço</th>
                   <th className="border p-2">Data</th>
                   <th className="border p-2">Hora</th>
                   <th className="border p-2">Status</th>
-                  {user?.role === "admin" ? (
-                    ""
-                  ) : (
+                  {user?.role === "user" ? (
                     <th className="border p-2"></th>
+                  ) : (
+                    ""
                   )}
                 </tr>
               </thead>
@@ -141,8 +146,16 @@ const AppointmentsDashboard: React.FC = () => {
                   <tr key={appointment.id} className="hover:bg-gray-50">
                     <td className="border p-2 text-center">{appointment.id}</td>
                     <td className="border p-2">{appointment.petName}</td>
+                    {user?.role === "admin" ? (
+                      <td className="border p-2">
+                        {appointment.owner.phone.match(/.{1,3}/g)?.join(" ")}
+                      </td>
+                    ) : (
+                      ""
+                    )}
                     <td className="border p-2">
-                      {appointment.service.category.title}
+                      {appointment.service.category.title} -{" "}
+                      {appointment.service.duration} min
                     </td>
                     <td className="border p-2">
                       €{appointment.service.price.toFixed(2)}

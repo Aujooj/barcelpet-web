@@ -7,8 +7,6 @@ import {
   updateAppointmentStatusAsync,
 } from "../models/appointmentModel.js";
 
-import prisma from "../prisma/prisma.js";
-
 export async function getAvailableTimes(req, res) {
   const { date } = req.query;
 

@@ -38,7 +38,20 @@ const AliveAnimals: React.FC = () => {
             Conheça os nossos animais disponíveis para venda.
           </p>
         </div>
-
+        {animalType === "reptil" ? (
+          <div className="py-8 text-center">
+            <p>
+              De acordo com a Lei n.º 95/2017 de 23 de agosto, não é permitida a
+              venda e/ou publicitação de animais selvagens/exóticos através de
+              websites/plataformas na internet.
+              <br />
+              Caso deseje conhecer os animais que temos disponíveis e respetivas
+              condições de venda, por favor entre em contacto connosco.
+            </p>
+          </div>
+        ) : (
+          ""
+        )}
         <section className="container mx-auto px-6 py-12">
           {loading ? (
             <Loading />
