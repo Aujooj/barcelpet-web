@@ -7,6 +7,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -28,7 +29,7 @@ const Home: React.FC = () => {
             AQUI SOMOS FAMÍLIA!
           </p>
           <Link
-            to="/sobre"
+            to="/sobre#form-email"
             className="btn bg-secondary text-white px-6 py-3 rounded-md hover:bg-primary transition"
           >
             Como podemos ajudar?

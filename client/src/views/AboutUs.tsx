@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useLocation } from "react-router-dom";
 
 const AboutUs: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +19,8 @@ const AboutUs: React.FC = () => {
     subject: "",
     message: "",
   });
+
+  const location = useLocation();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -116,8 +119,13 @@ const AboutUs: React.FC = () => {
   };
 
   useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
 
   return (
     <>

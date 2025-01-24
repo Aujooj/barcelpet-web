@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const AuthPage: React.FC = () => {
@@ -88,6 +88,11 @@ const AuthPage: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <div className="p-6 text-2xl font-bold items-center">
+        <Link to="/">
+          <img src="/logo.png" alt="logo" className="h-20 m-auto" />
+        </Link>
+      </div>
         <h2 className="text-3xl font-semibold text-center text-primary mb-6">
           {isRegister ? "Criar Conta" : "Inicie sessão"}
         </h2>
@@ -170,6 +175,7 @@ const AuthPage: React.FC = () => {
           </button>
         </p>
       </div>
+      
     </div>
   );
 };

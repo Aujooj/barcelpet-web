@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -76,6 +76,22 @@ const AliveAnimals: React.FC = () => {
               ))}
             </div>
           )}
+        </section>
+        <section className="bg-primary text-white py-6">
+          <div className="container mx-auto px-6 text-center">
+            <h2 className="text-3xl font-bold mb-4">
+              Está interessado em um deles?
+            </h2>
+            <p className="text-lg mb-6">
+              Entre em contacto conosco para mais informações.
+            </p>
+            <Link
+              to="/sobre#form-email"
+              className="bg-white text-primary px-6 py-3 rounded-md hover:bg-gray-100 transition"
+            >
+              Entrar em contacto
+            </Link>
+          </div>
         </section>
       </div>
       <Footer />
